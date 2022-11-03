@@ -30,14 +30,18 @@ class GolferActivity : AppCompatActivity() {
             if(validateHcp(hcp!!)){
                 val hcpFloat = (hcp!!.toFloat() * 10.0).roundToInt() / 10.0
                 val outPut = "hcp: $hcpFloat"
-                editor.apply{
-                    putString("sf_hcp", outPut)
-                    commit()
-                }
+
+                //option with shared preferences
+//                editor.apply{
+//                    putString("sf_hcp", outPut)
+//                    commit()
+//                }
+
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("HCP", "$outPut")
                 Log.i("Golfer", "$hcp")
                 this.startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         }
     }
