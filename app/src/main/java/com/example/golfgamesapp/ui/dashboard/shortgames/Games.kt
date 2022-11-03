@@ -1,21 +1,22 @@
 package com.example.golfgamesapp.ui.dashboard.shortgames
 
-import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.golfgamesapp.R
-import com.example.golfgamesapp.databinding.FragmentShortGamesBinding
+import com.example.golfgamesapp.MainActivity
+import com.example.golfgamesapp.databinding.FragmentGamesBinding
 
-class ShortGames : Fragment() {
-    private var _binding: FragmentShortGamesBinding? = null
-    val shortGamesList = listOf<ShortGame>(
-        ShortGame("21 game",0),
-        ShortGame("Chipping zone challenge",1)
+
+class Games : Fragment() {
+    private var _binding: FragmentGamesBinding? = null
+    private var shortGamesList = listOf<Game>(
+        Game("21 game",0,0),
+        Game("Chipping zone challenge",1,0),
+        Game("Find flag",2,1)
     )
 
     private val binding get() = _binding!!
@@ -24,13 +25,17 @@ class ShortGames : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentShortGamesBinding.inflate(inflater, container, false)
+        _binding = FragmentGamesBinding.inflate(inflater, container, false)
+        var input = arguments?.getInt("gameType")
+        var inputTitle = arguments?.getString("gameName")
+        (activity as MainActivity)?.setActionBarTitle(inputTitle)
+
+        shortGamesList = shortGamesList.filter {it.gameType==input}
         val shortGames = binding.recyclerViewShortGames
-        shortGames.setBackgroundColor(Color.YELLOW)
         shortGames.layoutManager = LinearLayoutManager(activity)
         shortGames.adapter = ShortGamesRecyclerViewAdapter(
             shortGamesList,
-        ) { selectedItem: ShortGame ->
+        ) { selectedItem: Game ->
             listGameClicked(selectedItem)
         }
 
@@ -38,9 +43,9 @@ class ShortGames : Fragment() {
         val root: View = binding.root
         return root
     }
-    private fun listGameClicked(shortGame: ShortGame){
+    private fun listGameClicked(shortGame: Game){
         Toast.makeText(
-            this@ShortGames.context,
+            this@Games.context,
             "Selected gameFragment : ${shortGame.name}",
             Toast.LENGTH_LONG
         ).show()

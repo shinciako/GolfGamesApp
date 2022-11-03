@@ -7,7 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.golfgamesapp.R
 
-class ShortGamesRecyclerViewAdapter(private val shortGamesList: List<ShortGame>, private val clickListener: (ShortGame) -> Unit) : RecyclerView.Adapter<ShortGameHolder>() {
+class ShortGamesRecyclerViewAdapter(
+    private val shortGamesList: List<Game>,
+    private val clickListener: (Game) -> Unit
+    ) : RecyclerView.Adapter<ShortGameHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShortGameHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem = layoutInflater.inflate(R.layout.short_games, parent, false)
@@ -26,7 +30,7 @@ class ShortGamesRecyclerViewAdapter(private val shortGamesList: List<ShortGame>,
 
 
 class ShortGameHolder(val view: View):RecyclerView.ViewHolder(view){
-    fun bind(shortGame: ShortGame, clickListener: (ShortGame)->Unit){
+    fun bind(shortGame: Game, clickListener: (Game)->Unit){
         val textViewShortGame = view.findViewById<TextView>(R.id.tvShortGames)
         textViewShortGame.text = shortGame.name
 

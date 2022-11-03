@@ -1,6 +1,5 @@
 package com.example.golfgamesapp.ui.dashboard
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,15 +7,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.golfgamesapp.databinding.FragmentDashboardBinding
+import com.example.golfgamesapp.databinding.FragmentGameTypeBinding
 
-class DashboardFragment : Fragment() {
+class GameTypeFragment : Fragment() {
 
-    private var _binding: FragmentDashboardBinding? = null
-    val gamesList = listOf<Game>(
-        Game("Around the green",0),
-        Game("Approaches",1),
-        Game("Long game",2)
+    private var _binding: FragmentGameTypeBinding? = null
+    val gamesList = listOf<GameType>(
+        GameType("Around the green",0),
+        GameType("Approaches",1),
+        GameType("Long game",2)
     )
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -27,12 +26,12 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentGameTypeBinding.inflate(inflater, container, false)
         val rvGames = binding.myRecyclerView
         rvGames.layoutManager = LinearLayoutManager(activity)
         rvGames.adapter = MyRecyclerViewAdapter(
             gamesList,
-        ) { selectedItem: Game ->
+        ) { selectedItem: GameType ->
             listGameClicked(selectedItem)
         }
         val root: View = binding.root
@@ -44,9 +43,9 @@ class DashboardFragment : Fragment() {
         _binding = null
     }
 
-    private fun listGameClicked(game: Game){
+    private fun listGameClicked(game: GameType){
         Toast.makeText(
-            this@DashboardFragment.context,
+            this@GameTypeFragment.context,
             "Selected gameFragment : ${game.name}",
             Toast.LENGTH_LONG
         ).show()
