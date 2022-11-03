@@ -1,5 +1,6 @@
 package com.example.golfgamesapp.ui.dashboard
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +14,9 @@ class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
     val gamesList = listOf<Game>(
-        Game("Around the green"),
-        Game("Approaches"),
-        Game("Long game")
+        Game("Around the green",0),
+        Game("Approaches",1),
+        Game("Long game",2)
     )
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -34,8 +35,6 @@ class DashboardFragment : Fragment() {
         ) { selectedItem: Game ->
             listGameClicked(selectedItem)
         }
-
-
         val root: View = binding.root
         return root
     }

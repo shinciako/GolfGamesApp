@@ -3,9 +3,7 @@ package com.example.golfgamesapp.ui.dashboard
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ExpandableListView.OnChildClickListener
 import android.widget.TextView
-import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.golfgamesapp.R
@@ -33,12 +31,16 @@ class MyRecyclerViewAdapter(
 
 class MyViewHolder(val view: View):RecyclerView.ViewHolder(view){
     fun bind (game: Game, clickListener: (Game)->Unit) {
-        val myTextView = view.findViewById<TextView>(R.id.tvGame)
+        val myTextView = view.findViewById<TextView>(R.id.tvGames)
         myTextView.text = game.name
 
         view.setOnClickListener(){
             clickListener(game)
-            it.findNavController().navigate(R.id.action_navigation_dashboard_to_navigation_notifications)
+            when(game.id){
+                0 -> it.findNavController().navigate(R.id.action_navigation_dashboard_to_shortGames)
+                1 -> it.findNavController().navigate(R.id.action_navigation_dashboard_to_navigation_notifications)
+                2 -> it.findNavController().navigate(R.id.action_navigation_dashboard_to_navigation_notifications)
+            }
         }
     }
 }
