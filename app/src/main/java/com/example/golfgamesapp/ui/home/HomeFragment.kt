@@ -31,10 +31,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         hcp = binding.tvHcp
-        hcp.setText((activity as MainActivity)?.receiveHcp())
+        hcp.setText((activity as MainActivity).receiveHcp())
         binding.btnSettings.setOnClickListener{
-            (activity as MainActivity)?.sendHcp(hcp)
-            hcp.setText((activity as MainActivity)?.receiveHcp())
+            (activity as MainActivity).sendHcp(hcp)
+            hcp.text = (activity as MainActivity).receiveHcp()
             Log.i("HCP","UPDATED ${hcp.text}")
         }
     }
