@@ -5,13 +5,13 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.golfgamesapp.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, GolferActivity::class.java)
         intent.putExtra("HCP", tvHcp.text.toString())
         startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     //Functions for receiving data from activity to another activity
@@ -55,10 +56,17 @@ class MainActivity : AppCompatActivity() {
         sf = getSharedPreferences("my_sf", MODE_PRIVATE)
         val newHcp = intent.getStringExtra("HCP")
         if(newHcp==null) {
-            return "hcp: 0.0"
-            //not using shared preferences to show double way communication
-            //return sf.getString("sf_hcp", null)
+            return sf.getString("sf_hcp", null)
+        }
+        sf.edit().apply{
+            putString("sf_hcp", newHcp)
+            commit()
         }
         return newHcp
+    }
+
+    //Changing title bar text
+    fun setActionBarTitle(title: String?) {
+        supportActionBar?.title = title
     }
 }
