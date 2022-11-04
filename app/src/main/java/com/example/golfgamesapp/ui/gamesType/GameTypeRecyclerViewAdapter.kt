@@ -1,5 +1,7 @@
 package com.example.golfgamesapp.ui.gamesType
 
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.golfgamesapp.R
 
 class MyRecyclerViewAdapter(
-    private val gamesList:List<GameType>,
-    private val clickListener: (GameType)->Unit
+    private val gamesList:List<GameType>
     ) : RecyclerView.Adapter<MyViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -22,7 +23,7 @@ class MyRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val game = gamesList[position]
-        holder.bind(game, clickListener)
+        holder.bind(game)
     }
 
     override fun getItemCount(): Int {
@@ -31,14 +32,12 @@ class MyRecyclerViewAdapter(
 }
 
 class MyViewHolder(val view: View):RecyclerView.ViewHolder(view){
-    fun bind (game: GameType, clickListener: (GameType)->Unit) {
+    fun bind (game: GameType) {
         val myTextView = view.findViewById<TextView>(R.id.tvGames)
         myTextView.text = game.name
 
         view.setOnClickListener(){
-            clickListener(game)
-            val bundle = bundleOf("gameType" to game.type, "gameName" to game.name)
-            it.findNavController().navigate(R.id.action_navigation_dashboard_to_shortGames, bundle)
+            it.findNavController().navigate(GameTypeFragmentDirections.actionNavigationDashboardToShortGames(game))
         }
     }
 }
