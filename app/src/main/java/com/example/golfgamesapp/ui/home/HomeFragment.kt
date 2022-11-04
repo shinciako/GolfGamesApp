@@ -22,14 +22,22 @@ class HomeFragment : Fragment() {
     ): View {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 //        removing upper bar with notifications
 //        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        updateHcp()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun updateHcp(){
         hcp = binding.tvHcp
         hcp.setText((activity as MainActivity).receiveHcp())
         binding.btnSettings.setOnClickListener{
@@ -37,10 +45,5 @@ class HomeFragment : Fragment() {
             hcp.text = (activity as MainActivity).receiveHcp()
             Log.i("HCP","UPDATED ${hcp.text}")
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
