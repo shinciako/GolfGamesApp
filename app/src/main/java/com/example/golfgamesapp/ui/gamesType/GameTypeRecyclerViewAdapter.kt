@@ -1,12 +1,9 @@
 package com.example.golfgamesapp.ui.gamesType
 
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.golfgamesapp.R
@@ -31,12 +28,12 @@ class MyRecyclerViewAdapter(
     }
 }
 
-class MyViewHolder(val view: View):RecyclerView.ViewHolder(view){
+class MyViewHolder(private val view: View):RecyclerView.ViewHolder(view){
     fun bind (game: GameType) {
         val myTextView = view.findViewById<TextView>(R.id.tvGames)
         myTextView.text = game.name
 
-        view.setOnClickListener(){
+        view.setOnClickListener {
             it.findNavController().navigate(GameTypeFragmentDirections.actionNavigationDashboardToShortGames(game))
         }
     }

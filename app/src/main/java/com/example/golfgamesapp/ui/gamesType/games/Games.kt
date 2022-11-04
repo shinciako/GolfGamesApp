@@ -15,9 +15,9 @@ import com.example.golfgamesapp.ui.gamesType.GameType
 
 class Games : Fragment() {
     private var _binding: FragmentGamesBinding? = null
-    lateinit var input: GameType
+    private lateinit var input: GameType
     private val navigationArgs : GamesArgs by navArgs()
-    private var shortGamesList = listOf<Game>(
+    private var shortGamesList = listOf(
         Game("21 game",0,0),
         Game("Chipping zone challenge",1,0),
         Game("Find flag",2,1)
@@ -28,12 +28,12 @@ class Games : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentGamesBinding.inflate(inflater, container, false)
 
         input = navigationArgs.game
-        (activity as MainActivity)?.setActionBarTitle(input.name)
-        shortGamesList = shortGamesList.filter {it.gameType==input.type}
+        (activity as MainActivity).setActionBarTitle(input.name)
+        shortGamesList = shortGamesList.filter { it.gameType == input.type }
         val shortGames = binding.recyclerViewShortGames
         shortGames.layoutManager = LinearLayoutManager(activity)
         shortGames.adapter = ShortGamesRecyclerViewAdapter(
@@ -43,8 +43,7 @@ class Games : Fragment() {
         }
 
         // Inflate the layout for this fragment
-        val root: View = binding.root
-        return root
+        return binding.root
     }
     private fun listGameClicked(shortGame: Game){
         Toast.makeText(

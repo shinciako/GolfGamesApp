@@ -12,7 +12,7 @@ class GameTypeFragment : Fragment() {
     private var _binding: FragmentGameTypeBinding? = null
     private val binding get() = _binding!!
 
-    val gamesList = listOf<GameType>(
+    private val gamesList = listOf(
         GameType("Around the green",0),
         GameType("Approaches",1),
         GameType("Long game",2)
