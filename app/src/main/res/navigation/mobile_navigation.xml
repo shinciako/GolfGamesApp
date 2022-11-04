@@ -30,5 +30,9 @@
         android:id="@+id/Games"
         android:name="com.example.golfgamesapp.ui.gamesType.games.Games"
         android:label="fragment_short_games"
-        tools:layout="@layout/fragment_games" />
+        tools:layout="@layout/fragment_games" >
+        <argument
+            android:name="game"
+            app:argType="com.example.golfgamesapp.ui.gamesType.GameType" />
+    </fragment>
 </navigation>
