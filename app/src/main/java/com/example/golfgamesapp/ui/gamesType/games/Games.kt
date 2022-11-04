@@ -1,4 +1,4 @@
-package com.example.golfgamesapp.ui.dashboard.shortgames
+package com.example.golfgamesapp.ui.gamesType.games
 
 import android.os.Bundle
 import android.view.LayoutInflater

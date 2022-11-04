@@ -1,4 +1,4 @@
-package com.example.golfgamesapp.ui.dashboard
+package com.example.golfgamesapp.ui.gamesType
 
 import android.view.LayoutInflater
 import android.view.View

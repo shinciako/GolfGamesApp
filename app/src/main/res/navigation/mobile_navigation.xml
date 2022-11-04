@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.golfgamesapp.ui.dashboard.GameTypeFragment"
+        android:name="com.example.golfgamesapp.ui.gamesType.GameTypeFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_game_type" >
         <action
@@ -28,7 +28,7 @@
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/Games"
-        android:name="com.example.golfgamesapp.ui.dashboard.shortgames.Games"
+        android:name="com.example.golfgamesapp.ui.gamesType.games.Games"
         android:label="fragment_short_games"
         tools:layout="@layout/fragment_games" />
 </navigation>
