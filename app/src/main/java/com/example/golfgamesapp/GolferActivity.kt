@@ -46,6 +46,8 @@ class GolferActivity : AppCompatActivity() {
         }
     }
 
+
+    //Saving etHcp in shared preferences
     override fun onPause() {
         super.onPause()
         val hcpPause = binding.etHcp.text.toString()
@@ -56,6 +58,8 @@ class GolferActivity : AppCompatActivity() {
 
     }
 
+
+    //Restoring etHcp from shared preferences
     override fun onResume() {
         super.onResume()
         val hcpPause = sf.getString("sf_hcpP",null)
