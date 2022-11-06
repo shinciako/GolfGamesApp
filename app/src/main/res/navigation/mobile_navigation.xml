@@ -18,7 +18,7 @@
         tools:layout="@layout/fragment_game_type" >
         <action
             android:id="@+id/action_navigation_dashboard_to_shortGames"
-            app:destination="@id/Games" />
+            app:destination="@id/games" />
     </fragment>
 
     <fragment
@@ -27,12 +27,24 @@
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
     <fragment
-        android:id="@+id/Games"
+        android:id="@+id/games"
         android:name="com.example.golfgamesapp.ui.gamesType.games.Games"
         android:label="fragment_short_games"
         tools:layout="@layout/fragment_games" >
         <argument
             android:name="game"
             app:argType="com.example.golfgamesapp.ui.gamesType.GameType" />
+        <action
+            android:id="@+id/action_Games_to_chosenGame"
+            app:destination="@id/chosenGame" />
+    </fragment>
+    <fragment
+        android:id="@+id/chosenGame"
+        android:name="com.example.golfgamesapp.ChosenGame"
+        android:label="fragment_chosen_game"
+        tools:layout="@layout/fragment_chosen_game" >
+        <argument
+            android:name="chosenGame"
+            app:argType="com.example.golfgamesapp.ui.gamesType.games.Game" />
     </fragment>
 </navigation>

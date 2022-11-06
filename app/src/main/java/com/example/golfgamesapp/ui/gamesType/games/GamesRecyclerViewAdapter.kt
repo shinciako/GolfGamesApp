@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.golfgamesapp.R
+import com.example.golfgamesapp.ui.gamesType.GameTypeFragmentDirections
 
 class ShortGamesRecyclerViewAdapter(
     private val shortGamesList: List<Game>,
@@ -30,12 +32,14 @@ class ShortGamesRecyclerViewAdapter(
 
 
 class ShortGameHolder(val view: View):RecyclerView.ViewHolder(view){
-    fun bind(shortGame: Game, clickListener: (Game)->Unit){
+    fun bind(game: Game, clickListener: (Game)->Unit){
         val textViewShortGame = view.findViewById<TextView>(R.id.tvShortGames)
-        textViewShortGame.text = shortGame.name
+        textViewShortGame.text = game.name
 
         view.setOnClickListener(){
-            clickListener(shortGame)
+            clickListener(game)
+
+            it.findNavController().navigate(GamesDirections.actionGamesToChosenGame(game))
         }
     }
 
