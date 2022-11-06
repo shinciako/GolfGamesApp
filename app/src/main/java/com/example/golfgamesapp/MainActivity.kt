@@ -4,8 +4,10 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
@@ -18,12 +20,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var sf: SharedPreferences
+    private lateinit var navView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val navView: BottomNavigationView = binding.navView
+        navView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -32,9 +35,20 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-//        supportActionBar?.hide()
+        controlNavVisibility(navController)
     }
 
+
+    //Function to control visibility in fragments
+    private fun controlNavVisibility(navController: NavController){
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if(destination.id == R.id.games ||
+                destination.id == R.id.chosenGame
+            )
+                navView.visibility = View.GONE
+            else navView.visibility = View.VISIBLE
+        }
+    }
 
     //Function for sending data from activity to another activity
     fun sendHcp(tvHcp: TextView){
