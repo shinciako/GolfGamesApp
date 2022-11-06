@@ -14,7 +14,7 @@ class MyRecyclerViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listItem = layoutInflater.inflate(R.layout.list_item, parent, false)
+        val listItem = layoutInflater.inflate(R.layout.game_types, parent, false)
         return MyViewHolder(listItem)
     }
 

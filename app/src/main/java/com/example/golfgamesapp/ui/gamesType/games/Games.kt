@@ -15,7 +15,6 @@ import com.example.golfgamesapp.ui.gamesType.GameType
 
 class Games : Fragment() {
     private var _binding: FragmentGamesBinding? = null
-    private lateinit var input: GameType
     private val navigationArgs : GamesArgs by navArgs()
     private var shortGamesList = listOf(
         Game("21 game",0,0),
@@ -31,7 +30,7 @@ class Games : Fragment() {
     ): View {
         _binding = FragmentGamesBinding.inflate(inflater, container, false)
 
-        input = navigationArgs.game
+        var input = navigationArgs.game
         (activity as MainActivity).setActionBarTitle(input.name)
         shortGamesList = shortGamesList.filter { it.gameType == input.type }
         val shortGames = binding.recyclerViewShortGames
