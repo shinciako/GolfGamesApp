@@ -21,9 +21,7 @@ class ChosenGame : Fragment() {
         var input = navigationArgs.chosenGame
         _binding = FragmentChosenGameBinding.inflate(inflater, container, false)
         (activity as MainActivity).setActionBarTitle(input.name)
-        binding.tvDescription.text = "both of your solution are working absolutely fine but to get access of bottom nav bar in my fragments I am using your solution as it is very short and simple. – \n" +
-                "Digvijay\n" +
-                " May 20, 2019 at 7:48"
+        binding.tvDescription.text = input.description
         return binding.root
     }
 }
