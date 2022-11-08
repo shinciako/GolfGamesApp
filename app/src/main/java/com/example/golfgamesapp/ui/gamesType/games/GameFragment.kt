@@ -1,7 +1,6 @@
 package com.example.golfgamesapp.ui.gamesType.games
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.golfgamesapp.MainActivity
 import com.example.golfgamesapp.databinding.FragmentGamesBinding
-import com.example.golfgamesapp.ui.gamesType.GameType
 
 
-class Games : Fragment() {
+class GameFragment : Fragment() {
     private var _binding: FragmentGamesBinding? = null
-    private val navigationArgs : GamesArgs by navArgs()
+    private val navigationArgs : GameFragmentArgs by navArgs()
     private var shortGamesList = listOf(
         Game("Par 18",0,0,"You play 9 holes from around the green. " +
                 "The idea in this game is to make up and down from every ball. " +
@@ -39,7 +37,7 @@ class Games : Fragment() {
     ): View {
         _binding = FragmentGamesBinding.inflate(inflater, container, false)
 
-        var input = navigationArgs.game
+        val input = navigationArgs.game
         (activity as MainActivity).setActionBarTitle(input.name)
         shortGamesList = shortGamesList.filter { it.gameType == input.type }
         val shortGames = binding.recyclerViewShortGames
@@ -55,7 +53,7 @@ class Games : Fragment() {
     }
     private fun listGameClicked(shortGame: Game){
         Toast.makeText(
-            this@Games.context,
+            this@GameFragment.context,
             "Selected gameFragment : ${shortGame.name}",
             Toast.LENGTH_LONG
         ).show()

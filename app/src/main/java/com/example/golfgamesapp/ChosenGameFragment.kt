@@ -10,21 +10,21 @@ import androidx.navigation.fragment.navArgs
 import com.example.golfgamesapp.databinding.FragmentChosenGameBinding
 
 
-class ChosenGame : Fragment() {
+class ChosenGameFragment : Fragment() {
     private var _binding: FragmentChosenGameBinding? = null
     private val binding get() = _binding!!
-    private val navigationArgs : ChosenGameArgs by navArgs()
+    private val navigationArgs : ChosenGameFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        var input = navigationArgs.chosenGame
+        val input = navigationArgs.chosenGame
         _binding = FragmentChosenGameBinding.inflate(inflater, container, false)
         (activity as MainActivity).setActionBarTitle(input.name)
         binding.tvDescription.text = input.description
         binding.btnVideo.setOnClickListener{
-            it.findNavController().navigate(ChosenGameDirections.actionChosenGameToVideoGame(input))
+            it.findNavController().navigate(ChosenGameFragmentDirections.actionChosenGameToVideoGame(input))
         }
         return binding.root
     }

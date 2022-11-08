@@ -39,7 +39,7 @@ class ShortGameHolder(val view: View):RecyclerView.ViewHolder(view){
         view.setOnClickListener(){
             clickListener(game)
 
-            it.findNavController().navigate(GamesDirections.actionGamesToChosenGame(game))
+            it.findNavController().navigate(GameFragmentDirections.actionGamesToChosenGame(game))
         }
     }
 

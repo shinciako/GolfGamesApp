@@ -18,7 +18,7 @@
         tools:layout="@layout/fragment_game_type" >
         <action
             android:id="@+id/action_navigation_dashboard_to_shortGames"
-            app:destination="@id/games" />
+            app:destination="@id/navigation_game" />
     </fragment>
 
     <fragment
@@ -27,8 +27,8 @@
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
     <fragment
-        android:id="@+id/games"
-        android:name="com.example.golfgamesapp.ui.gamesType.games.Games"
+        android:id="@+id/navigation_game"
+        android:name="com.example.golfgamesapp.ui.gamesType.games.GameFragment"
         android:label="fragment_short_games"
         tools:layout="@layout/fragment_games" >
         <argument
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/chosenGame"
-        android:name="com.example.golfgamesapp.ChosenGame"
+        android:name="com.example.golfgamesapp.ChosenGameFragment"
         android:label="fragment_chosen_game"
         tools:layout="@layout/fragment_chosen_game" >
         <argument
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/videoGame"
-        android:name="com.example.golfgamesapp.VideoGame"
+        android:name="com.example.golfgamesapp.VideoGameFragment"
         android:label="fragment_video_game"
         tools:layout="@layout/fragment_video_game" >
         <argument

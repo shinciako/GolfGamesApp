@@ -7,6 +7,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -26,6 +29,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setupNav()
+    }
+
+
+    fun hideSystemBars() {
+        supportActionBar?.hide()
+        val windowInsetsController =
+            ViewCompat.getWindowInsetsController(window.decorView) ?: return
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+    }
+
+    fun showSystemBars(){
+        supportActionBar?.show()
+        val windowInsetsController =
+            ViewCompat.getWindowInsetsController(window.decorView) ?: return
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
+    }
+
+    //Function to setupNav
+    private fun setupNav(){
         navView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
@@ -38,12 +65,12 @@ class MainActivity : AppCompatActivity() {
         controlNavVisibility(navController)
     }
 
-
     //Function to control visibility in fragments
     private fun controlNavVisibility(navController: NavController){
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if(destination.id == R.id.games ||
-                destination.id == R.id.chosenGame
+            if(destination.id == R.id.navigation_game ||
+                destination.id == R.id.chosenGame ||
+                destination.id == R.id.videoGame
             )
                 navView.visibility = View.GONE
             else navView.visibility = View.VISIBLE
@@ -55,19 +82,16 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, GolferActivity::class.java)
         intent.putExtra("HCP", tvHcp.text.toString())
         startActivity(intent)
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
 
     //Function for receiving data from activity to another activity
     fun receiveHcp(): String? {
         sf = getSharedPreferences("my_sf", MODE_PRIVATE)
-        val newHcp = intent.getStringExtra("HCP")
-        if(newHcp==null) {
-            return sf.getString("sf_hcp", null)
-        }
+        val newHcp = intent.getStringExtra("HCP") ?: return sf.getString("sf_hcp", null)
         sf.edit().apply{
             putString("sf_hcp", newHcp)
-            commit()
+            apply()
         }
         return newHcp
     }
