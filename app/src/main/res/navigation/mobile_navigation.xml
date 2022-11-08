@@ -46,5 +46,17 @@
         <argument
             android:name="chosenGame"
             app:argType="com.example.golfgamesapp.ui.gamesType.games.Game" />
+        <action
+            android:id="@+id/action_chosenGame_to_videoGame"
+            app:destination="@id/videoGame" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoGame"
+        android:name="com.example.golfgamesapp.VideoGame"
+        android:label="fragment_video_game"
+        tools:layout="@layout/fragment_video_game" >
+        <argument
+            android:name="videoGame"
+            app:argType="com.example.golfgamesapp.ui.gamesType.games.Game" />
     </fragment>
 </navigation>

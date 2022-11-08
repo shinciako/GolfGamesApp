@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.golfgamesapp.databinding.FragmentChosenGameBinding
 
@@ -22,6 +23,9 @@ class ChosenGame : Fragment() {
         _binding = FragmentChosenGameBinding.inflate(inflater, container, false)
         (activity as MainActivity).setActionBarTitle(input.name)
         binding.tvDescription.text = input.description
+        binding.btnVideo.setOnClickListener{
+            it.findNavController().navigate(ChosenGameDirections.actionChosenGameToVideoGame(input))
+        }
         return binding.root
     }
 }
