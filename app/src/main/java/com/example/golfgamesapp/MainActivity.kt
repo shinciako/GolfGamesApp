@@ -2,9 +2,12 @@ package com.example.golfgamesapp
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -110,4 +113,15 @@ class MainActivity : AppCompatActivity() {
         return item.onNavDestinationSelected(findNavController(R.id.nav_host_fragment_activity_main))
                 || super.onOptionsItemSelected(item)
     }
+
+    fun loadLastImage(imageView: ImageView) {
+        val encodedImage = sf.getString("encodedImage", "DEFAULT")
+
+        if (encodedImage != "DEFAULT") {
+            val imageBytes = Base64.decode(encodedImage, Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            imageView.setImageBitmap(decodedImage)
+        }
+    }
+
 }

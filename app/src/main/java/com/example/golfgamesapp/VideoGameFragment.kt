@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -33,8 +32,8 @@ class VideoGameFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentVideoGameBinding.inflate(inflater, container, false)
         (activity as MainActivity).hideSystemBars()
+        _binding = FragmentVideoGameBinding.inflate(inflater, container, false)
         val input = navigationArgs.videoGame
         (activity as MainActivity).setActionBarTitle(input.name)
         setupExoPlayer()
