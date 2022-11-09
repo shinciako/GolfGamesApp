@@ -49,12 +49,24 @@
         <action
             android:id="@+id/action_chosenGame_to_videoGame"
             app:destination="@id/videoGame" />
+        <action
+            android:id="@+id/action_chosenGame_to_gameRegisterFragment"
+            app:destination="@id/gameRegister" />
     </fragment>
     <fragment
         android:id="@+id/videoGame"
         android:name="com.example.golfgamesapp.VideoGameFragment"
         android:label="fragment_video_game"
         tools:layout="@layout/fragment_video_game" >
+        <argument
+            android:name="GameInfo"
+            app:argType="com.example.golfgamesapp.ui.gamesType.games.GameInfo" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameRegister"
+        android:name="com.example.golfgamesapp.GameRegisterFragment"
+        android:label="fragment_game_register"
+        tools:layout="@layout/fragment_game_register" >
         <argument
             android:name="GameInfo"
             app:argType="com.example.golfgamesapp.ui.gamesType.games.GameInfo" />

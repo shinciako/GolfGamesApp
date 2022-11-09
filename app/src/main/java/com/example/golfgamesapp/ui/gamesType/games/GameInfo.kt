@@ -5,4 +5,4 @@ import com.example.golfgamesapp.ui.gamesType.Type
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class GameInfo(val name: String, val id: Int, val gameType: Type, val description: String) : Parcelable
+data class GameInfo(val name: String, val gameType: Type, val description: String) : Parcelable

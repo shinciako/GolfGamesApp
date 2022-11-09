@@ -28,12 +28,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sf: SharedPreferences
     private lateinit var navView: BottomNavigationView
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupNav()
     }
+
 
 
     fun hideSystemBars() {
@@ -73,7 +75,8 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if(destination.id == R.id.navigation_game ||
                 destination.id == R.id.chosenGame ||
-                destination.id == R.id.videoGame
+                destination.id == R.id.videoGame ||
+                destination.id == R.id.gameRegister
             )
                 navView.visibility = View.GONE
             else navView.visibility = View.VISIBLE

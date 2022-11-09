@@ -13,7 +13,7 @@ class ShortGamesRecyclerViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShortGameHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listItem = layoutInflater.inflate(R.layout.short_games, parent, false)
+        val listItem = layoutInflater.inflate(R.layout.game_types, parent, false)
         return ShortGameHolder(listItem)
     }
 
@@ -30,7 +30,7 @@ class ShortGamesRecyclerViewAdapter(
 
 class ShortGameHolder(private val view: View):RecyclerView.ViewHolder(view){
     fun bind(gameInfo: GameInfo){
-        val textViewShortGame = view.findViewById<TextView>(R.id.tvShortGames)
+        val textViewShortGame = view.findViewById<TextView>(R.id.tvGames)
         textViewShortGame.text = gameInfo.name
 
         view.setOnClickListener {
