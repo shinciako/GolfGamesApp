@@ -1,11 +1,16 @@
 package com.example.golfgamesapp.db
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Game::class], version = 1, exportSchema = false)
+@Database(
+    entities = [Game::class],
+    version = 2,
+    autoMigrations = [AutoMigration(from = 1, to=2)]
+)
 abstract class GameDatabase : RoomDatabase(){
 
     abstract fun gameDao(): GameDao
@@ -22,6 +27,7 @@ abstract class GameDatabase : RoomDatabase(){
                         "game_data_database"
                     ).build()
                 }
+                //context.deleteDatabase("game_data_database");
                 return instance
             }
         }
