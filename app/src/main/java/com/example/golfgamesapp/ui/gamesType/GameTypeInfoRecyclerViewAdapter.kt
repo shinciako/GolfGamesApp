@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.golfgamesapp.R
 
 class MyRecyclerViewAdapter(
-    private val gamesList:List<GameType>
+    private val gamesList:List<GameTypeInfo>
     ) : RecyclerView.Adapter<MyViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -29,7 +29,7 @@ class MyRecyclerViewAdapter(
 }
 
 class MyViewHolder(private val view: View):RecyclerView.ViewHolder(view){
-    fun bind (game: GameType) {
+    fun bind (game: GameTypeInfo) {
         val myTextView = view.findViewById<TextView>(R.id.tvGames)
         myTextView.text = game.name
 

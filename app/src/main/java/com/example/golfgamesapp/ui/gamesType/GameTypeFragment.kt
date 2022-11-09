@@ -13,9 +13,9 @@ class GameTypeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val gamesList = listOf(
-        GameType("Around the green",0),
-        GameType("Approaches",1),
-        GameType("Long game",2)
+        GameTypeInfo("Around the green", Type.Short),
+        GameTypeInfo("Approaches",Type.Mid),
+        GameTypeInfo("Long game",Type.Long)
     )
 
     override fun onCreateView(

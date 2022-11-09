@@ -34,7 +34,7 @@ class VideoGameFragment : Fragment() {
     ): View {
         (activity as MainActivity).hideSystemBars()
         _binding = FragmentVideoGameBinding.inflate(inflater, container, false)
-        val input = navigationArgs.videoGame
+        val input = navigationArgs.gameInfo
         (activity as MainActivity).setActionBarTitle(input.name)
         setupExoPlayer()
         return binding.root
@@ -45,7 +45,8 @@ class VideoGameFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         (activity as MainActivity).showSystemBars()
-        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE ||
+            resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
             (activity as MainActivity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         simpleExoPlayer.stop()
     }
@@ -82,7 +83,7 @@ class VideoGameFragment : Fragment() {
         }!!
         binding.player.player = simpleExoPlayer
         binding.player.keepScreenOn = true
-        simpleExoPlayer?.addListener(object: Player.Listener{
+        simpleExoPlayer.addListener(object: Player.Listener{
             @Deprecated("Deprecated in Java")
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
                 if(playbackState == Player.STATE_BUFFERING){
@@ -98,4 +99,8 @@ class VideoGameFragment : Fragment() {
         simpleExoPlayer.play()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding=null
+    }
 }

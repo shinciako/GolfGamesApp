@@ -12,6 +12,9 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
 import com.example.golfgamesapp.databinding.ActivityGolferBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import kotlin.math.roundToInt
 
@@ -21,7 +24,7 @@ class GolferActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGolferBinding
 
     companion object {
-        val IMAGE_REQUEST_CODE = 1_000;
+        const val IMAGE_REQUEST_CODE = 1_000;
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +51,9 @@ class GolferActivity : AppCompatActivity() {
                 this.startActivity(intent)
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
-            saveImage(binding.ivAvatarGolfer)
+            CoroutineScope(Dispatchers.IO).launch{
+                saveImage(binding.ivAvatarGolfer)
+            }
         }
 
         binding.btnChangeAvatar.setOnClickListener{

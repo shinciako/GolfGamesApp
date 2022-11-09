@@ -19,7 +19,7 @@ class ChosenGameFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val input = navigationArgs.chosenGame
+        val input = navigationArgs.gameInfo
         _binding = FragmentChosenGameBinding.inflate(inflater, container, false)
         (activity as MainActivity).setActionBarTitle(input.name)
         binding.tvDescription.text = input.description
@@ -27,5 +27,10 @@ class ChosenGameFragment : Fragment() {
             it.findNavController().navigate(ChosenGameFragmentDirections.actionChosenGameToVideoGame(input))
         }
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding=null
     }
 }
