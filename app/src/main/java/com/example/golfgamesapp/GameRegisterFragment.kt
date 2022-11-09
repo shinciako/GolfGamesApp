@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.text.set
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -15,6 +16,7 @@ import com.example.golfgamesapp.db.Game
 import com.example.golfgamesapp.db.GameDatabase
 import com.example.golfgamesapp.ui.gamesType.MyRecyclerViewAdapter
 import com.example.golfgamesapp.ui.gamesType.games.GameInfo
+import java.util.*
 
 
 class GameRegisterFragment : Fragment() {
@@ -25,6 +27,10 @@ class GameRegisterFragment : Fragment() {
 
     private lateinit var viewModel: GameViewModel
     private lateinit var adapter: GameRecyclerViewAdapter
+    private var isListItemClicked = false
+
+
+    private lateinit var selectedGame: Game
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,31 +44,82 @@ class GameRegisterFragment : Fragment() {
         val factory = GameViewModelFactory(dao)
         viewModel = ViewModelProvider(this, factory)[GameViewModel::class.java]
 
+
+
         binding.btnSave.setOnClickListener(){
-            saveGameData()
-            clearInput()
+            if(isListItemClicked){
+                updateGameData()
+                clearInput()
+            }else{
+                saveGameData()
+                clearInput()
+            }
         }
         binding.btnClear.setOnClickListener(){
-            clearInput()
+            if(isListItemClicked){
+                deleteGameData()
+                clearInput()
+            }
+            else {
+                clearInput()
+            }
         }
         setupRv()
         return binding.root
     }
 
+
     private fun saveGameData(){
         val points = binding.etPoints.text.toString().toInt()
-        val game = Game(0,input.name,points)
+        val date = binding.etDate.text.toString()
+        val game = Game(0,input.name,points, date)
         viewModel.insertGame(game)
+        Toast.makeText(
+            this.context,
+            "You have added a new ${game.name} game",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun clearInput(){
         binding.etPoints.setText("")
+        binding.etDate.setText("")
+    }
+
+    private fun updateGameData(){
+        viewModel.updateGame(
+            Game(
+                selectedGame.id,
+                selectedGame.name,
+                binding.etPoints.text.toString().toInt(),
+                binding.etDate.text.toString()
+            )
+        )
+        binding.btnSave.text = "Save"
+        binding.btnClear.text = "Clear"
+        isListItemClicked = false
+    }
+
+    private fun deleteGameData(){
+        viewModel.deleteGame(
+            Game(
+                selectedGame.id,
+                selectedGame.name,
+                selectedGame.points,
+                selectedGame.date
+            )
+        )
+        binding.btnSave.text = "Save"
+        binding.btnClear.text = "Clear"
+        isListItemClicked = false
     }
 
     private fun setupRv(){
         val rvGames = binding.rvGames
-        rvGames.layoutManager = LinearLayoutManager(this@GameRegisterFragment.context)
-        adapter = GameRecyclerViewAdapter()
+        rvGames.layoutManager = LinearLayoutManager(this.context)
+        adapter = GameRecyclerViewAdapter(input.name){
+            selectedItem:Game -> listItemClicked(selectedItem)
+        }
         rvGames.adapter = adapter
         displayGameList()
     }
@@ -73,4 +130,14 @@ class GameRegisterFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
     }
+
+    private fun listItemClicked(game: Game){
+        selectedGame = game
+        binding.btnSave.text = "Update"
+        binding.btnClear.text = "Delete"
+        isListItemClicked = true
+        binding.etPoints.setText(selectedGame.points.toString())
+        binding.etDate.setText(selectedGame.date)
+    }
+
 }

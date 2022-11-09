@@ -51,9 +51,7 @@ class GolferActivity : AppCompatActivity() {
                 this.startActivity(intent)
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
-            CoroutineScope(Dispatchers.IO).launch{
-                saveImage(binding.ivAvatarGolfer)
-            }
+            saveImage(binding.ivAvatarGolfer)
         }
 
         binding.btnChangeAvatar.setOnClickListener{
