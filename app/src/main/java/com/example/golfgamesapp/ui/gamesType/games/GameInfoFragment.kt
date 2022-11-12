@@ -28,7 +28,14 @@ class GameInfoFragment : Fragment() {
                 "feet left in the bank."),
         GameInfo("Consecutive greens",Type.Mid, "This is a simple game. " +
                 "Pick one green and hit shots onto this green consecutively until you miss the" +
-                " green. It is way better than hitting balls to the target without any pressure.")
+                " green. It is way better than hitting balls to the target without any pressure."),
+        GameInfo("9 shots",Type.Mid, "Pick a target on the driving range. " +
+                "Try to hit nine shots toward the target:\n" +
+                "Draw\n Fade\n Straight\n High Draw\n High Fade\n High Straight\n" +
+                "Low Draw\n Low Fade\n Low Straight\n"),
+        GameInfo("Consecutive fairways",Type.Long, "Pick a fairway on the " +
+                "driving range and hit shots onto this green consecutively " +
+                "until you miss the green.")
     )
 
     private val binding get() = _binding!!
