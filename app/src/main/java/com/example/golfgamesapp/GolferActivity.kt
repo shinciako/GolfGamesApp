@@ -1,20 +1,19 @@
 package com.example.golfgamesapp
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import com.example.golfgamesapp.databinding.ActivityGolferBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import kotlin.math.roundToInt
 
@@ -22,34 +21,47 @@ class GolferActivity : AppCompatActivity() {
     private lateinit var sf: SharedPreferences
     private lateinit var editor : SharedPreferences.Editor
     private lateinit var binding: ActivityGolferBinding
+    private lateinit var hcp: String
 
-    companion object {
-        const val IMAGE_REQUEST_CODE = 1_000;
+    private val getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if(it.resultCode == Activity.RESULT_OK){
+            binding.ivAvatarGolfer.setImageURI(it.data?.data)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGolferBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setupSf()
+        loadLastImage(binding.ivAvatarGolfer)
+        setupHcp()
+        setupButtons()
+    }
 
+    private fun setupSf(){
         sf = getSharedPreferences("my_sf", MODE_PRIVATE)
         editor = sf.edit()
+    }
 
-        loadLastImage(binding.ivAvatarGolfer)
-        var hcp = intent.getStringExtra("HCP")
-        hcp = hcp?.let { converseText(it) }
+    private fun setupHcp(){
+        hcp = intent.getStringExtra("HCP").toString()
+        hcp = converseText(hcp)
         binding.etHcp.setText(hcp)
+        hcp = binding.etHcp.text.toString()
+    }
 
-        binding.btnApply.setOnClickListener(){
-            hcp = binding.etHcp.text.toString()
-            if(validateHcp(hcp!!)){
-                val hcpFloat = (hcp!!.toFloat() * 10.0).roundToInt() / 10.0
+    private fun setupButtons(){
+        binding.btnApply.setOnClickListener {
+
+            if(validateHcp(hcp)){
+                val hcpFloat = (hcp.toFloat() * 10.0).roundToInt() / 10.0
                 val outPut = "hcp: $hcpFloat"
                 val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("HCP", "$outPut")
-                Log.i("Golfer", "$hcp")
+                intent.putExtra("HCP", outPut)
+                Log.i("Golfer", hcp)
                 this.startActivity(intent)
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             }
             saveImage(binding.ivAvatarGolfer)
         }
@@ -70,7 +82,6 @@ class GolferActivity : AppCompatActivity() {
         }
 
     }
-
 
     //Restoring etHcp from shared preferences
     override fun onResume() {
@@ -102,8 +113,7 @@ class GolferActivity : AppCompatActivity() {
         val bitmap = imageView.drawable.toBitmap()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
         val encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT)
-
-        editor.apply(){
+        editor.apply {
             putString("encodedImage", encodedImage)
             apply()
         }
@@ -112,19 +122,11 @@ class GolferActivity : AppCompatActivity() {
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_REQUEST_CODE)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
-            binding.ivAvatarGolfer.setImageURI(data?.data)
-        }
+        getResult.launch(intent)
     }
 
     private fun loadLastImage(imageView: ImageView) {
         val encodedImage = sf.getString("encodedImage", "DEFAULT")
-
         if (encodedImage != "DEFAULT") {
             val imageBytes = Base64.decode(encodedImage, Base64.DEFAULT)
             val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
