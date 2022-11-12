@@ -1,21 +1,14 @@
 package com.example.golfgamesapp.ui.home
 
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.golfgamesapp.MainActivity
 import com.example.golfgamesapp.databinding.FragmentHomeBinding
-import java.io.ByteArrayOutputStream
 
 
 class HomeFragment : Fragment() {
@@ -32,8 +25,8 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         updateHcp()
         (activity as MainActivity).loadLastImage(binding.ivAvatar)
     }
