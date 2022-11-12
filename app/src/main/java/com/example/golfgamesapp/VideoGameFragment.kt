@@ -5,10 +5,12 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -45,11 +47,11 @@ class VideoGameFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         (activity as MainActivity).showSystemBars()
-        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE ||
-            resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
-            (activity as MainActivity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            (activity as MainActivity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         simpleExoPlayer.stop()
     }
+
 
     @SuppressLint("UseRequireInsteadOfGet")
     private fun setupExoPlayer(){
