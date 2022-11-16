@@ -1,4 +1,4 @@
-package com.example.golfgamesapp
+package com.example.golfgamesapp.ui.gamesType.games.options
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.golfgamesapp.MainActivity
 import com.example.golfgamesapp.databinding.FragmentChosenGameBinding
 import com.example.golfgamesapp.ui.gamesType.games.GameInfo
 
@@ -30,10 +31,14 @@ class ChosenGameFragment : Fragment() {
 
     private fun setupButtons(){
         binding.btnVideo.setOnClickListener{
-            it.findNavController().navigate(ChosenGameFragmentDirections.actionChosenGameToVideoGame(input))
+            it.findNavController().navigate(
+                ChosenGameFragmentDirections.actionChosenGameToVideoGame(input)
+            )
         }
         binding.btnPlay.setOnClickListener {
-            it.findNavController().navigate(ChosenGameFragmentDirections.actionChosenGameToGameRegisterFragment(input))
+            it.findNavController().navigate(
+                ChosenGameFragmentDirections.actionChosenGameToGameRegisterFragment(input)
+            )
         }
     }
 

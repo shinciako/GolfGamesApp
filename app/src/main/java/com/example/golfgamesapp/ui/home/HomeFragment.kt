@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
 
     private fun updateHcp(){
         hcp = binding.tvHcp
-        hcp.setText((activity as MainActivity).receiveHcp())
+        hcp.text = (activity as MainActivity).receiveHcp()
         binding.btnSettings.setOnClickListener{
             (activity as MainActivity).sendHcp(hcp)
             hcp.text = (activity as MainActivity).receiveHcp()

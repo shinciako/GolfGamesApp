@@ -1,11 +1,13 @@
-package com.example.golfgamesapp
+package com.example.golfgamesapp.ui.gamesType.games.options
 
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +17,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.golfgamesapp.MainActivity
 import com.example.golfgamesapp.databinding.FragmentGameRegisterBinding
 import com.example.golfgamesapp.db.Game
 import com.example.golfgamesapp.db.GameDatabase
 import com.example.golfgamesapp.ui.gamesType.games.GameInfo
+import java.text.SimpleDateFormat
+import java.time.ZoneOffset
+import java.util.*
 
 
 class GameRegisterFragment : Fragment() {
@@ -36,6 +42,7 @@ class GameRegisterFragment : Fragment() {
 
 
     private lateinit var selectedGame: Game
+    private var cal = Calendar.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,14 +51,38 @@ class GameRegisterFragment : Fragment() {
         _binding = FragmentGameRegisterBinding.inflate(inflater, container, false)
         input = navigationArgs.gameInfo
         (activity as MainActivity).setActionBarTitle(input.name)
-
         setupDb()
+        createOnDateSetListener()
         setupNotifications()
         setupButtons()
         setupRv()
         return binding.root
     }
 
+    private fun createOnDateSetListener(){
+        val dateSetListener =
+            DatePickerDialog.OnDateSetListener { _, year, month, day ->
+                cal.set(Calendar.YEAR,year)
+                cal.set(Calendar.MONTH,month)
+                cal.set(Calendar.DAY_OF_MONTH,day)
+                updateDateInView(cal.time)
+                Log.i("date", "${cal.time}")
+            }
+        binding.tvDatePick.setOnClickListener{
+            DatePickerDialog(
+                requireActivity(),
+                dateSetListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)).show()
+        }
+    }
+
+    private fun updateDateInView(date: Date) {
+        val myFormat = "dd/MM/yyyy" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
+        binding.tvDatePick.text = sdf.format(date)
+    }
 
     private fun setupDb(){
         val dao = GameDatabase.getInstance((activity as MainActivity).application).gameDao()
@@ -113,7 +144,7 @@ class GameRegisterFragment : Fragment() {
 
     private fun saveGameData(){
         val points = binding.etPoints.text.toString().toInt()
-        val date = binding.etDate.text.toString()
+        val date = cal.time.toInstant().atOffset(ZoneOffset.UTC)
         val game = Game(0,input.name,points, date)
         viewModel.insertGame(game)
         displayNotification(game)
@@ -133,7 +164,7 @@ class GameRegisterFragment : Fragment() {
 
     private fun clearInput(){
         binding.etPoints.setText("")
-        binding.etDate.setText("")
+        binding.tvDatePick.text = "--/--/----"
     }
 
     private fun updateGameData(){
@@ -142,7 +173,7 @@ class GameRegisterFragment : Fragment() {
                 selectedGame.id,
                 selectedGame.name,
                 binding.etPoints.text.toString().toInt(),
-                binding.etDate.text.toString()
+                cal.time.toInstant().atOffset(ZoneOffset.UTC)
             )
         )
         binding.btnSave.text = "Save"
@@ -188,6 +219,6 @@ class GameRegisterFragment : Fragment() {
         binding.btnClear.text = "Delete"
         isListItemClicked = true
         binding.etPoints.setText(selectedGame.points.toString())
-        binding.etDate.setText(selectedGame.date)
+        updateDateInView(Date(selectedGame.date.toInstant().toEpochMilli()))
     }
 }

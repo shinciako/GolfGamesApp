@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ChosenGameFragment" >
+    tools:context=".ui.gamesType.games.options.ChosenGameFragment" >
 
     <TextView
         android:id="@+id/tvDescription"
@@ -32,15 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Watch Video"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:cornerRadius="20dp" />
-
-    <Button
-        android:id="@+id/btnGameHistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="History"
         android:textSize="30sp"
         android:textStyle="bold"
         app:cornerRadius="20dp" />

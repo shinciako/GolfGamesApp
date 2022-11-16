@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/chosenGame"
-        android:name="com.example.golfgamesapp.ChosenGameFragment"
+        android:name="com.example.golfgamesapp.ui.gamesType.games.options.ChosenGameFragment"
         android:label="fragment_chosen_game"
         tools:layout="@layout/fragment_chosen_game" >
         <argument
@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/videoGame"
-        android:name="com.example.golfgamesapp.VideoGameFragment"
+        android:name="com.example.golfgamesapp.ui.gamesType.games.options.VideoGameFragment"
         android:label="fragment_video_game"
         tools:layout="@layout/fragment_video_game" >
         <argument
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/gameRegister"
-        android:name="com.example.golfgamesapp.GameRegisterFragment"
+        android:name="com.example.golfgamesapp.ui.gamesType.games.options.GameRegisterFragment"
         android:label="fragment_game_register"
         tools:layout="@layout/fragment_game_register" >
         <argument

@@ -1,19 +1,19 @@
-package com.example.golfgamesapp
+package com.example.golfgamesapp.ui.gamesType.games.options
 
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.example.golfgamesapp.MainActivity
+import com.example.golfgamesapp.R
 import com.example.golfgamesapp.databinding.FragmentVideoGameBinding
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -44,6 +44,7 @@ class VideoGameFragment : Fragment() {
 
 
     //Stopping video
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onStop() {
         super.onStop()
         (activity as MainActivity).showSystemBars()
@@ -53,7 +54,7 @@ class VideoGameFragment : Fragment() {
     }
 
 
-    @SuppressLint("UseRequireInsteadOfGet")
+    @SuppressLint("UseRequireInsteadOfGet", "SourceLockedOrientationActivity")
     private fun setupExoPlayer(){
         btnFullScreen = binding.root.findViewById(R.id.bt_fullscreen)
 
@@ -62,14 +63,16 @@ class VideoGameFragment : Fragment() {
             if(!isFullScreen){
                 btnFullScreen.setImageDrawable(this.context?.let { it1 ->
                     ContextCompat.getDrawable(
-                        it1, R.drawable.ic_baseline_fullscreen_exit)
+                        it1, R.drawable.ic_baseline_fullscreen_exit
+                    )
                 })
                 (activity as MainActivity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             }
             else{
                 btnFullScreen.setImageDrawable(this.context?.let { it1 ->
                     ContextCompat.getDrawable(
-                        it1, R.drawable.ic_baseline_fullscreen)
+                        it1, R.drawable.ic_baseline_fullscreen
+                    )
                 })
                 (activity as MainActivity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             }
@@ -94,7 +97,7 @@ class VideoGameFragment : Fragment() {
                     binding.progressBar.visibility = View.GONE
             }
         })
-        val videoSource = Uri.parse("android.resource://"+activity?.packageName+"/"+R.raw.par18)
+        val videoSource = Uri.parse("android.resource://"+activity?.packageName+"/"+ R.raw.par18)
         val mediaItem = MediaItem.fromUri(videoSource)
         simpleExoPlayer.setMediaItem(mediaItem)
         simpleExoPlayer.prepare()

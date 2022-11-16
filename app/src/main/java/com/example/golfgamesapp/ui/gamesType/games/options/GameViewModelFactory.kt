@@ -1,4 +1,4 @@
-package com.example.golfgamesapp
+package com.example.golfgamesapp.ui.gamesType.games.options
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
