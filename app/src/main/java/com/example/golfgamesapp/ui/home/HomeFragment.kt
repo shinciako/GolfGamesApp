@@ -30,7 +30,7 @@ class HomeFragment : Fragment() {
         updateHcp()
         (activity as MainActivity).loadLastImage(binding.ivAvatar)
     }
-
+    
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

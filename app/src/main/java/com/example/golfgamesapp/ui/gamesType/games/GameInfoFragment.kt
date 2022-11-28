@@ -35,7 +35,9 @@ class GameInfoFragment : Fragment() {
                 "Low Draw\n Low Fade\n Low Straight\n"),
         GameInfo("Consecutive fairways",Type.Long, "Pick a fairway on the " +
                 "driving range and hit shots onto this green consecutively " +
-                "until you miss the green.")
+                "until you miss the green."),
+        GameInfo("Longest drive", Type.Long, "Using launch monitor, record your " +
+                "longest drive of the session")
     )
 
     private val binding get() = _binding!!

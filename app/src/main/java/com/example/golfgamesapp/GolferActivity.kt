@@ -48,12 +48,11 @@ class GolferActivity : AppCompatActivity() {
         hcp = intent.getStringExtra("HCP").toString()
         hcp = converseText(hcp)
         binding.etHcp.setText(hcp)
-        hcp = binding.etHcp.text.toString()
     }
 
     private fun setupButtons(){
         binding.btnApply.setOnClickListener {
-
+            hcp = binding.etHcp.text.toString()
             if(validateHcp(hcp)){
                 val hcpFloat = (hcp.toFloat() * 10.0).roundToInt() / 10.0
                 val outPut = "hcp: $hcpFloat"

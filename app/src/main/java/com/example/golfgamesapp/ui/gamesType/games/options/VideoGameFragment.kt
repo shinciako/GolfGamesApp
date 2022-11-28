@@ -15,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.golfgamesapp.MainActivity
 import com.example.golfgamesapp.R
 import com.example.golfgamesapp.databinding.FragmentVideoGameBinding
+import com.example.golfgamesapp.ui.gamesType.games.GameInfo
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -28,6 +29,7 @@ class VideoGameFragment : Fragment() {
     private val navigationArgs: VideoGameFragmentArgs by navArgs()
     private lateinit var simpleExoPlayer:SimpleExoPlayer
     private lateinit var btnFullScreen: ImageView
+    private var fileName = 0
 
 
     override fun onCreateView(
@@ -37,11 +39,23 @@ class VideoGameFragment : Fragment() {
         (activity as MainActivity).hideSystemBars()
         _binding = FragmentVideoGameBinding.inflate(inflater, container, false)
         val input = navigationArgs.gameInfo
+        pickVideo(input)
         (activity as MainActivity).setActionBarTitle(input.name)
         setupExoPlayer()
         return binding.root
     }
 
+
+    private fun pickVideo(input: GameInfo){
+        when(input.name){
+            "Par 18" -> fileName = R.raw.par18
+            "Bank" -> fileName = R.raw.bank
+            "Consecutive greens" -> fileName = R.raw.green
+            "9 shots" -> fileName = R.raw.shots9
+            "Consecutive fairways" -> fileName = R.raw.fairway
+            "Longest drive" -> fileName = R.raw.longest
+        }
+    }
 
     //Stopping video
     @SuppressLint("SourceLockedOrientationActivity")
@@ -97,15 +111,16 @@ class VideoGameFragment : Fragment() {
                     binding.progressBar.visibility = View.GONE
             }
         })
-        val videoSource = Uri.parse("android.resource://"+activity?.packageName+"/"+ R.raw.par18)
+
+        val videoSource = Uri.parse("android.resource://"+activity?.packageName+"/"+ fileName)
         val mediaItem = MediaItem.fromUri(videoSource)
         simpleExoPlayer.setMediaItem(mediaItem)
         simpleExoPlayer.prepare()
         simpleExoPlayer.play()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding=null
     }
 }
