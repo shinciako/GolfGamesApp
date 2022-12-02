@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
         binding.btnSettings.setOnClickListener{
             (activity as MainActivity).sendHcp(hcp)
             hcp.text = (activity as MainActivity).receiveHcp()
-            Log.i("HCP","UPDATED ${hcp.text}")
+            //Log.i("HCP","UPDATED ${hcp.text}")
         }
     }
 

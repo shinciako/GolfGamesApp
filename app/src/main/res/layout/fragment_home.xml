@@ -57,4 +57,5 @@
         app:layout_constraintVertical_bias="0.035"
         app:srcCompat="@drawable/ic_settings"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,6 +33,7 @@ class GolferActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityGolferBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        title = "Settings"
         setupSf()
         loadLastImage(binding.ivAvatarGolfer)
         setupHcp()
@@ -58,11 +59,10 @@ class GolferActivity : AppCompatActivity() {
                 val outPut = "hcp: $hcpFloat"
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("HCP", outPut)
-                Log.i("Golfer", hcp)
                 this.startActivity(intent)
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+                saveImage(binding.ivAvatarGolfer)
             }
-            saveImage(binding.ivAvatarGolfer)
         }
 
         binding.btnChangeAvatar.setOnClickListener{
