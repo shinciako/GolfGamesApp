@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.golfgamesapp.R
 
 class ShortGamesRecyclerViewAdapter(
-    private val shortGamesList: List<GameInfo>) : RecyclerView.Adapter<ShortGameHolder>() {
+    private val shortGamesList: List<GameInfo>
+) : RecyclerView.Adapter<ShortGameHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShortGameHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -28,13 +29,14 @@ class ShortGamesRecyclerViewAdapter(
 }
 
 
-class ShortGameHolder(private val view: View):RecyclerView.ViewHolder(view){
-    fun bind(gameInfo: GameInfo){
+class ShortGameHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    fun bind(gameInfo: GameInfo) {
         val textViewShortGame = view.findViewById<TextView>(R.id.tvGames)
         textViewShortGame.text = gameInfo.name
 
         view.setOnClickListener {
-            it.findNavController().navigate(GameInfoFragmentDirections.actionGameInfoToChosenGame(gameInfo))
+            it.findNavController()
+                .navigate(GameInfoFragmentDirections.actionGameInfoToChosenGame(gameInfo))
         }
     }
 

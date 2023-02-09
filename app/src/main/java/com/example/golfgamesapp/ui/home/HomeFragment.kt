@@ -22,14 +22,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dao = GameDatabase.getInstance((activity as MainActivity).application).gameDao()
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        dao.getLastGame().observe(viewLifecycleOwner){
-            val date = "${it.date.dayOfMonth} / ${it.date.month} / ${it.date.year}"
-            binding.reusableCard.tvGameName.text = it.name
-            binding.reusableCard.tvPoints.text = it.points.toString()
-            binding.reusableCard.tvDate.text = date
-        }
+        setupDb()
         return binding.root
     }
 
@@ -38,19 +32,28 @@ class HomeFragment : Fragment() {
         updateHcp()
         (activity as MainActivity).loadLastImage(binding.ivAvatar)
     }
-    
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    private fun updateHcp(){
+    private fun updateHcp() {
         hcp = binding.tvHcp
         hcp.text = (activity as MainActivity).receiveHcp()
-        binding.btnSettings.setOnClickListener{
+        binding.btnSettings.setOnClickListener {
             (activity as MainActivity).sendHcp(hcp)
             hcp.text = (activity as MainActivity).receiveHcp()
-            //Log.i("HCP","UPDATED ${hcp.text}")
+        }
+    }
+
+    private fun setupDb() {
+        val dao = GameDatabase.getInstance((activity as MainActivity).application).gameDao()
+        dao.getLastGame().observe(viewLifecycleOwner) {
+            val date = "${it.date.dayOfMonth} / ${it.date.month} / ${it.date.year}"
+            binding.reusableCard.tvGameName.text = it.name
+            binding.reusableCard.tvPoints.text = it.points.toString()
+            binding.reusableCard.tvDate.text = date
         }
     }
 
