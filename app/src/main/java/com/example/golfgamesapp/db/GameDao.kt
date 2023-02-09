@@ -17,4 +17,7 @@ interface GameDao {
 
     @Query("SELECT * FROM game_data_table order by date DESC")
     fun getAllGames(): LiveData<List<Game>>
+
+    @Query("SELECT * FROM game_data_table order by date DESC LIMIT 1")
+    fun getLastGame(): LiveData<Game>
 }

@@ -96,10 +96,10 @@ class GolferActivity : AppCompatActivity() {
     private fun validateHcp(hcp: String):Boolean{
         val hcpToFloat = hcp.toFloat()
         Log.i("HCP", "$hcpToFloat")
-        if (hcpToFloat>54.0f || hcpToFloat<0.0f){
+        if (hcpToFloat>54.0f || hcpToFloat<-10.0f){
             Toast.makeText(
                 this@GolferActivity,
-                "Please, enter hcp from 0-54",
+                "Please, enter hcp from -10 to 54",
                 Toast.LENGTH_SHORT
             ).show()
             return false

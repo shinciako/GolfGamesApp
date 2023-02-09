@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.golfgamesapp.MainActivity
 import com.example.golfgamesapp.databinding.FragmentHomeBinding
+import com.example.golfgamesapp.db.GameDatabase
 
 
 class HomeFragment : Fragment() {
@@ -21,7 +22,14 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val dao = GameDatabase.getInstance((activity as MainActivity).application).gameDao()
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        dao.getLastGame().observe(viewLifecycleOwner){
+            val date = "${it.date.dayOfMonth} / ${it.date.month} / ${it.date.year}"
+            binding.reusableCard.tvGameName.text = it.name
+            binding.reusableCard.tvPoints.text = it.points.toString()
+            binding.reusableCard.tvDate.text = date
+        }
         return binding.root
     }
 

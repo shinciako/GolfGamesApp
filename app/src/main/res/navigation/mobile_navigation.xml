@@ -3,34 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_golfer">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_golfer"
         android:name="com.example.golfgamesapp.ui.home.HomeFragment"
-        android:label="@string/title_home"
+        android:label="@string/title_golfer"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_games"
         android:name="com.example.golfgamesapp.ui.gamesType.GameTypeFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_game_type" >
+        android:label="@string/title_games"
+        tools:layout="@layout/fragment_game_type">
         <action
             android:id="@+id/action_navigation_dashboard_to_shortGames"
             app:destination="@id/navigation_game" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.golfgamesapp.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_history"
+        android:name="com.example.golfgamesapp.ui.notifications.HistoryFragment"
+        android:label="@string/title_history"
+        tools:layout="@layout/fragment_history" />
     <fragment
         android:id="@+id/navigation_game"
         android:name="com.example.golfgamesapp.ui.gamesType.games.GameInfoFragment"
-        android:label="fragment_short_games"
-        tools:layout="@layout/fragment_games" >
+        tools:layout="@layout/fragment_games">
         <action
             android:id="@+id/action_Game_Info_to_chosenGame"
             app:destination="@id/chosenGame" />
@@ -41,8 +40,7 @@
     <fragment
         android:id="@+id/chosenGame"
         android:name="com.example.golfgamesapp.ui.gamesType.games.options.ChosenGameFragment"
-        android:label="fragment_chosen_game"
-        tools:layout="@layout/fragment_chosen_game" >
+        tools:layout="@layout/fragment_chosen_game">
         <argument
             android:name="GameInfo"
             app:argType="com.example.golfgamesapp.ui.gamesType.games.GameInfo" />

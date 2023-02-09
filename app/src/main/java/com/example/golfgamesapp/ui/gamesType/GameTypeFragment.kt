@@ -39,4 +39,5 @@ class GameTypeFragment : Fragment() {
         rvGames.layoutManager = LinearLayoutManager(activity)
         rvGames.adapter = MyRecyclerViewAdapter(gamesList)
     }
+
 }

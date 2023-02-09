@@ -58,6 +58,7 @@ class GameInfoFragment : Fragment() {
         _binding = null
     }
 
+
     private fun setupRv(){
         shortGamesList = shortGamesList.filter { it.gameType == input.type }
         val shortGames = binding.recyclerViewShortGames
