@@ -10,7 +10,7 @@ import com.example.golfgamesapp.db.Game
 
 class HistoryGameRecyclerViewAdapter(
 ) : RecyclerView.Adapter<HistoryGameHolder>() {
-    private val gameList = ArrayList<Game>()
+    var gameList = ArrayList<Game>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryGameHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -29,6 +29,7 @@ class HistoryGameRecyclerViewAdapter(
     fun setList(games: List<Game>) {
         gameList.clear()
         gameList.addAll(games)
+        notifyDataSetChanged()
     }
 }
 
