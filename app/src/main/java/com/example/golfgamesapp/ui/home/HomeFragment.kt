@@ -1,7 +1,7 @@
 package com.example.golfgamesapp.ui.home
 
 import android.os.Bundle
-import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,11 +49,22 @@ class HomeFragment : Fragment() {
 
     private fun setupDb() {
         val dao = GameDatabase.getInstance((activity as MainActivity).application).gameDao()
-        dao.getLastGame().observe(viewLifecycleOwner) {
-            val date = "${it.date.dayOfMonth} / ${it.date.month} / ${it.date.year}"
-            binding.reusableCard.tvGameName.text = it.name
-            binding.reusableCard.tvPoints.text = it.points.toString()
-            binding.reusableCard.tvDate.text = date
+        dao.getAllGames().observe(viewLifecycleOwner) { gamesList ->
+            if (gamesList.isNotEmpty()) {
+                dao.getLastGame().observe(viewLifecycleOwner) {
+                    val date = "${it.date.dayOfMonth} / ${it.date.month} / ${it.date.year}"
+                    binding.reusableCard.tvGameName.text = it.name
+                    binding.reusableCard.tvPoints.text = it.points.toString()
+                    binding.reusableCard.tvDate.text = date
+                }
+            }
+            else {
+                binding.reusableCard.tvGameName.text = "No activity played"
+                binding.reusableCard.tvGameName.gravity = Gravity.CENTER
+                binding.reusableCard.tvPoints.text = ""
+                binding.reusableCard.tvDate.text = ""
+                binding.reusableCard.tvScore.text = ""
+            }
         }
     }
 

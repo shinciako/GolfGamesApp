@@ -9,7 +9,7 @@ import androidx.room.TypeConverters
 
 @Database(
     entities = [Game::class],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 @TypeConverters(DateConverter::class)
@@ -22,8 +22,8 @@ abstract class GameDatabase : RoomDatabase(){
         private var INSTANCE : GameDatabase? = null
 
         fun getInstance(context: Context):GameDatabase{
+//            context.deleteDatabase("game_data_database")
             return INSTANCE ?: synchronized(this){
-//                context.deleteDatabase("game_data_database")
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     GameDatabase::class.java,
