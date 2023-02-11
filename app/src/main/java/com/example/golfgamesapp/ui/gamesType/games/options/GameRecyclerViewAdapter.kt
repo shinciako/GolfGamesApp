@@ -35,9 +35,7 @@ class GameRecyclerViewAdapter(
             cardViewList.add(holder.cv)
         }
         holder.cv.setOnClickListener {
-            for (cvs in cardViewList) {
-                cvs.setCardBackgroundColor(cardColor)
-            }
+            resetCardsColor()
             holder.cv.setCardBackgroundColor(selectedColor)
             clickListener(gameList[position])
         }
@@ -53,10 +51,15 @@ class GameRecyclerViewAdapter(
         gameList.addAll(filteredList)
     }
 
+    fun resetCardsColor(){
+        for (cvs in cardViewList) {
+            cvs.setCardBackgroundColor(cardColor)
+        }
+    }
 }
 
 class GameViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-    val cv = itemView.findViewById<CardView>(R.id.cardView)
+    val cv: CardView = itemView.findViewById(R.id.cardView)
     fun bind(game: Game) {
         val tvGameName = view.findViewById<TextView>(R.id.tvGameName)
         val tvPoints = view.findViewById<TextView>(R.id.tvPoints)

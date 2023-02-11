@@ -12,14 +12,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.golfgamesapp.MainActivity
-import com.example.golfgamesapp.R
 import com.example.golfgamesapp.databinding.FragmentGameRegisterBinding
 import com.example.golfgamesapp.db.Game
 import com.example.golfgamesapp.db.GameDatabase
@@ -181,6 +179,7 @@ class GameRegisterFragment : Fragment() {
         binding.btnSave.text = "Save"
         binding.btnClear.text = "Clear"
         isListItemClicked = false
+        adapter.resetCardsColor()
     }
 
     private fun deleteGameData() {
@@ -195,6 +194,7 @@ class GameRegisterFragment : Fragment() {
         binding.btnSave.text = "Save"
         binding.btnClear.text = "Clear"
         isListItemClicked = false
+        adapter.resetCardsColor()
     }
 
     private fun setupRv() {
