@@ -34,8 +34,8 @@
             android:id="@+id/action_Game_Info_to_chosenGame"
             app:destination="@id/chosenGame" />
         <argument
-            android:name="GameTypeInfo"
-            app:argType="com.example.golfgamesapp.ui.gamesType.GameTypeInfo" />
+            android:name="GameType"
+            app:argType="com.example.golfgamesapp.ui.gamesType.GameType" />
     </fragment>
     <fragment
         android:id="@+id/chosenGame"

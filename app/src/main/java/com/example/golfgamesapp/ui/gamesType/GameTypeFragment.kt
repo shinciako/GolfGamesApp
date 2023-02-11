@@ -12,10 +12,10 @@ class GameTypeFragment : Fragment() {
     private var _binding: FragmentGameTypeBinding? = null
     private val binding get() = _binding!!
 
-    private val gamesList = listOf(
-        GameTypeInfo("Around the green", Type.Short),
-        GameTypeInfo("Approaches",Type.Mid),
-        GameTypeInfo("Long game",Type.Long)
+    private val gameTypesList = listOf(
+        GameType("Around the green", Type.Short),
+        GameType("Approaches",Type.Mid),
+        GameType("Long game",Type.Long)
     )
 
     override fun onCreateView(
@@ -35,9 +35,9 @@ class GameTypeFragment : Fragment() {
 
 
     private fun setupRv(){
-        val rvGames = binding.myRecyclerView
+        val rvGames = binding.gameTypeRecyclerView
         rvGames.layoutManager = LinearLayoutManager(activity)
-        rvGames.adapter = MyRecyclerViewAdapter(gamesList)
+        rvGames.adapter = GameTypeViewAdapter(gameTypesList)
     }
 
 }

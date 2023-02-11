@@ -12,28 +12,26 @@ import com.example.golfgamesapp.R
 import com.example.golfgamesapp.db.Game
 import kotlin.properties.Delegates
 
-private var cardColor by Delegates.notNull<Int>()
-private var selectedColor: Int = Color.parseColor("#16699f")
-private var cardViewList: MutableList<CardView> = ArrayList()
 
 class GameRecyclerViewAdapter(
     private val gameName: String,
     private val clickListener: (Game) -> Unit
 ) : RecyclerView.Adapter<GameViewHolder>() {
     private val gameList = ArrayList<Game>()
+    private val cardViewList: MutableList<CardView> = ArrayList()
+    private var basicCardColor by Delegates.notNull<Int>()
+    private val selectedColor: Int = Color.parseColor("#16699f")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listGames = layoutInflater.inflate(R.layout.list_games, parent, false)
-        cardColor = ContextCompat.getColor(layoutInflater.context, R.color.card_background)
+        basicCardColor = ContextCompat.getColor(layoutInflater.context, R.color.card_background)
         return GameViewHolder(listGames)
     }
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
         holder.bind(gameList[position])
-        if (!cardViewList.contains(holder.cv)) {
-            cardViewList.add(holder.cv)
-        }
+        addCardViewToList(holder)
         holder.cv.setOnClickListener {
             resetCardsColor()
             holder.cv.setCardBackgroundColor(selectedColor)
@@ -53,13 +51,20 @@ class GameRecyclerViewAdapter(
 
     fun resetCardsColor(){
         for (cvs in cardViewList) {
-            cvs.setCardBackgroundColor(cardColor)
+            cvs.setCardBackgroundColor(basicCardColor)
+        }
+    }
+
+    private fun addCardViewToList(holder: GameViewHolder){
+        if (!cardViewList.contains(holder.cv)) {
+            cardViewList.add(holder.cv)
         }
     }
 }
 
 class GameViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     val cv: CardView = itemView.findViewById(R.id.cardView)
+
     fun bind(game: Game) {
         val tvGameName = view.findViewById<TextView>(R.id.tvGameName)
         val tvPoints = view.findViewById<TextView>(R.id.tvPoints)

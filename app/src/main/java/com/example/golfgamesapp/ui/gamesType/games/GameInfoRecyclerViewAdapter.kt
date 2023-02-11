@@ -8,31 +8,31 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.golfgamesapp.R
 
-class ShortGamesRecyclerViewAdapter(
-    private val shortGamesList: List<GameInfo>
-) : RecyclerView.Adapter<ShortGameHolder>() {
+class GameInfoRecyclerViewAdapter(
+    private val gameInfoList: List<GameInfo>
+) : RecyclerView.Adapter<GameInfoHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShortGameHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameInfoHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem = layoutInflater.inflate(R.layout.game_types, parent, false)
-        return ShortGameHolder(listItem)
+        return GameInfoHolder(listItem)
     }
 
-    override fun onBindViewHolder(holder: ShortGameHolder, position: Int) {
-        val shortGame = shortGamesList[position]
-        holder.bind(shortGame)
+    override fun onBindViewHolder(holder: GameInfoHolder, position: Int) {
+        val gameInfo = gameInfoList[position]
+        holder.bind(gameInfo)
     }
 
     override fun getItemCount(): Int {
-        return shortGamesList.size
+        return gameInfoList.size
     }
 }
 
 
-class ShortGameHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+class GameInfoHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     fun bind(gameInfo: GameInfo) {
-        val textViewShortGame = view.findViewById<TextView>(R.id.tvGames)
-        textViewShortGame.text = gameInfo.name
+        val textViewGameInfo = view.findViewById<TextView>(R.id.tvGames)
+        textViewGameInfo.text = gameInfo.name
 
         view.setOnClickListener {
             it.findNavController()

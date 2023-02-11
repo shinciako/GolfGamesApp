@@ -7,7 +7,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,14 +34,13 @@ class GameRegisterFragment : Fragment() {
 
     private lateinit var viewModel: GameViewModel
     private lateinit var adapter: GameRecyclerViewAdapter
-    private var isListItemClicked = false
 
     private val channelID = "com.example.golfgamesapp.channel1"
     private var notificationManager: NotificationManager? = null
-
-
-    private lateinit var selectedGame: Game
     private var cal = Calendar.getInstance()
+
+    private var isListItemClicked = false
+    private lateinit var selectedGame: Game
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +57,22 @@ class GameRegisterFragment : Fragment() {
         return binding.root
     }
 
+    private fun setupDb() {
+        val dao = GameDatabase.getInstance((activity as MainActivity).application).gameDao()
+        val factory = GameViewModelFactory(dao)
+        viewModel = ViewModelProvider(this, factory)[GameViewModel::class.java]
+    }
+
+    private fun setupRv() {
+        val rvGames = binding.rvGames
+        rvGames.layoutManager = LinearLayoutManager(this.context)
+        adapter = GameRecyclerViewAdapter(input.name) { selectedItem: Game ->
+            listItemClicked(selectedItem)
+        }
+        rvGames.adapter = adapter
+        displayGameList()
+    }
+
     private fun createOnDateSetListener() {
         val dateSetListener =
             DatePickerDialog.OnDateSetListener { _, year, month, day ->
@@ -66,7 +80,6 @@ class GameRegisterFragment : Fragment() {
                 cal.set(Calendar.MONTH, month)
                 cal.set(Calendar.DAY_OF_MONTH, day)
                 updateDateInView(cal.time)
-                Log.i("date", "${cal.time}")
             }
         binding.tvDatePick.setOnClickListener {
             DatePickerDialog(
@@ -85,11 +98,6 @@ class GameRegisterFragment : Fragment() {
         binding.tvDatePick.text = sdf.format(date)
     }
 
-    private fun setupDb() {
-        val dao = GameDatabase.getInstance((activity as MainActivity).application).gameDao()
-        val factory = GameViewModelFactory(dao)
-        viewModel = ViewModelProvider(this, factory)[GameViewModel::class.java]
-    }
 
     //Notifications related functions
     private fun setupNotifications() {
@@ -150,22 +158,6 @@ class GameRegisterFragment : Fragment() {
         displayNotification(game)
     }
 
-    private fun validatePoints(): Boolean {
-        if (binding.etPoints.text.isNullOrBlank()) {
-            Toast.makeText(
-                this.context,
-                "Input must be integer",
-                Toast.LENGTH_SHORT
-            ).show()
-            return false
-        }
-        return true
-    }
-
-    private fun clearInput() {
-        binding.etPoints.setText("")
-        binding.tvDatePick.text = "--/--/----"
-    }
 
     private fun updateGameData() {
         viewModel.updateGame(
@@ -197,15 +189,23 @@ class GameRegisterFragment : Fragment() {
         adapter.resetCardsColor()
     }
 
-    private fun setupRv() {
-        val rvGames = binding.rvGames
-        rvGames.layoutManager = LinearLayoutManager(this.context)
-        adapter = GameRecyclerViewAdapter(input.name) { selectedItem: Game ->
-            listItemClicked(selectedItem)
+    private fun validatePoints(): Boolean {
+        if (binding.etPoints.text.isNullOrBlank()) {
+            Toast.makeText(
+                this.context,
+                "Input must be integer",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
         }
-        rvGames.adapter = adapter
-        displayGameList()
+        return true
     }
+
+    private fun clearInput() {
+        binding.etPoints.setText("")
+        binding.tvDatePick.text = "--/--/----"
+    }
+
 
     @SuppressLint("NotifyDataSetChanged")
     private fun displayGameList() {

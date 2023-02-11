@@ -9,15 +9,15 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.golfgamesapp.MainActivity
 import com.example.golfgamesapp.databinding.FragmentGamesBinding
-import com.example.golfgamesapp.ui.gamesType.GameTypeInfo
+import com.example.golfgamesapp.ui.gamesType.GameType
 import com.example.golfgamesapp.ui.gamesType.Type
 
 
 class GameInfoFragment : Fragment() {
     private var _binding: FragmentGamesBinding? = null
     private val navigationArgs : GameInfoFragmentArgs by navArgs()
-    private lateinit var input: GameTypeInfo
-    private var shortGamesList = listOf(
+    private lateinit var input: GameType
+    private var gameInfoList = listOf(
         GameInfo("Par 18", Type.Short,"You play 9 holes from around the green. " +
                 "The idea in this game is to make up and down from every ball. " +
                 "See how many shots you need to complete 9 holes."),
@@ -47,7 +47,7 @@ class GameInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentGamesBinding.inflate(inflater, container, false)
-        input = navigationArgs.gameTypeInfo
+        input = navigationArgs.gameType
         (activity as MainActivity).setActionBarTitle(input.name)
         setupRv()
         return binding.root
@@ -60,9 +60,9 @@ class GameInfoFragment : Fragment() {
 
 
     private fun setupRv(){
-        shortGamesList = shortGamesList.filter { it.gameType == input.type }
-        val shortGames = binding.recyclerViewShortGames
+        gameInfoList = gameInfoList.filter { it.gameType == input.type }
+        val shortGames = binding.gameInfoRecyclerView
         shortGames.layoutManager = LinearLayoutManager(activity)
-        shortGames.adapter = ShortGamesRecyclerViewAdapter(shortGamesList)
+        shortGames.adapter = GameInfoRecyclerViewAdapter(gameInfoList)
     }
 }

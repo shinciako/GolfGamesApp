@@ -17,27 +17,28 @@ class ChosenGameFragment : Fragment() {
     private val binding get() = _binding!!
     private val navigationArgs : ChosenGameFragmentArgs by navArgs()
     private lateinit var input: GameInfo
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         input = navigationArgs.gameInfo
         _binding = FragmentChosenGameBinding.inflate(inflater, container, false)
-        (activity as MainActivity).setActionBarTitle(input.name)
         binding.tvDescription.text = input.description
+        (activity as MainActivity).setActionBarTitle(input.name)
         setupButtons()
         return binding.root
     }
 
     private fun setupButtons(){
-        binding.btnVideo.setOnClickListener{
-            it.findNavController().navigate(
-                ChosenGameFragmentDirections.actionChosenGameToVideoGame(input)
-            )
-        }
         binding.btnPlay.setOnClickListener {
             it.findNavController().navigate(
                 ChosenGameFragmentDirections.actionChosenGameToGameRegisterFragment(input)
+            )
+        }
+        binding.btnVideo.setOnClickListener{
+            it.findNavController().navigate(
+                ChosenGameFragmentDirections.actionChosenGameToVideoGame(input)
             )
         }
     }

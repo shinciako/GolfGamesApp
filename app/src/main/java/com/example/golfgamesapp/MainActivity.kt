@@ -41,24 +41,27 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     fun hideSystemBars() {
         supportActionBar?.hide()
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window, window.decorView).let { controller ->
             controller.hide(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
     }
 
-    fun showSystemBars(){
+    fun showSystemBars() {
         supportActionBar?.show()
         WindowCompat.setDecorFitsSystemWindows(window, true)
-        WindowInsetsControllerCompat(window, window.decorView).show(WindowInsetsCompat.Type.systemBars())
+        WindowInsetsControllerCompat(
+            window,
+            window.decorView
+        ).show(WindowInsetsCompat.Type.systemBars())
     }
 
     //Function to setupNav
-    private fun setupNav(){
+    private fun setupNav() {
         navView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
@@ -72,9 +75,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     //Function to control visibility in fragments
-    private fun controlNavVisibility(navController: NavController){
+    private fun controlNavVisibility(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if(destination.id == R.id.navigation_game ||
+            if (destination.id == R.id.navigation_game ||
                 destination.id == R.id.chosenGame ||
                 destination.id == R.id.videoGame ||
                 destination.id == R.id.gameRegister
@@ -85,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //Function for sending data from activity to another activity
-    fun sendHcp(tvHcp: TextView){
+    fun sendHcp(tvHcp: TextView) {
         val intent = Intent(this, GolferActivity::class.java)
         intent.putExtra("HCP", tvHcp.text.toString())
         startActivity(intent)
@@ -96,7 +99,7 @@ class MainActivity : AppCompatActivity() {
     fun receiveHcp(): String? {
         sf = getSharedPreferences("my_sf", MODE_PRIVATE)
         val newHcp = intent.getStringExtra("HCP") ?: return sf.getString("sf_hcp", null)
-        sf.edit().apply{
+        sf.edit().apply {
             putString("sf_hcp", newHcp)
             apply()
         }

@@ -8,9 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.golfgamesapp.R
 import com.example.golfgamesapp.db.Game
 
-class HistoryGameRecyclerViewAdapter(
-) : RecyclerView.Adapter<HistoryGameHolder>() {
-    var gameList = ArrayList<Game>()
+class HistoryGameRecyclerViewAdapter : RecyclerView.Adapter<HistoryGameHolder>() {
+    private var gameList = ArrayList<Game>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryGameHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

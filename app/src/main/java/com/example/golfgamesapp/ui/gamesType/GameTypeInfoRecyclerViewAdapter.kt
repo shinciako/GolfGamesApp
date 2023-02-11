@@ -8,28 +8,28 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.golfgamesapp.R
 
-class MyRecyclerViewAdapter(
-    private val gamesList: List<GameTypeInfo>
-) : RecyclerView.Adapter<MyViewHolder>() {
+class GameTypeViewAdapter(
+    private val gameTypeList: List<GameType>
+) : RecyclerView.Adapter<GameTypeInfoHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameTypeInfoHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem = layoutInflater.inflate(R.layout.game_types, parent, false)
-        return MyViewHolder(listItem)
+        return GameTypeInfoHolder(listItem)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val game = gamesList[position]
+    override fun onBindViewHolder(holder: GameTypeInfoHolder, position: Int) {
+        val game = gameTypeList[position]
         holder.bind(game)
     }
 
     override fun getItemCount(): Int {
-        return gamesList.size
+        return gameTypeList.size
     }
 }
 
-class MyViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-    fun bind(game: GameTypeInfo) {
+class GameTypeInfoHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    fun bind(game: GameType) {
         val myTextView = view.findViewById<TextView>(R.id.tvGames)
         myTextView.text = game.name
 
