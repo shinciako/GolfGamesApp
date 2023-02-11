@@ -28,7 +28,7 @@ class HistoryFragment : Fragment() {
     private val binding get() = _binding!!
     private var cal = Calendar.getInstance()
     private var dateFrom: OffsetDateTime = OffsetDateTime.MIN
-    private var dateTo: OffsetDateTime = OffsetDateTime.MAX
+    private var dateTo: OffsetDateTime = OffsetDateTime.MAX.minusDays(1)
 
 
     override fun onCreateView(
