@@ -24,8 +24,8 @@ class GameRecyclerViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listGames = layoutInflater.inflate(R.layout.list_games, parent, false)
         basicCardColor = ContextCompat.getColor(layoutInflater.context, R.color.card_background)
+        val listGames = layoutInflater.inflate(R.layout.list_games, parent, false)
         return GameViewHolder(listGames)
     }
 
@@ -39,6 +39,18 @@ class GameRecyclerViewAdapter(
         }
     }
 
+    private fun addCardViewToList(holder: GameViewHolder){
+        if (!cardViewList.contains(holder.cv)) {
+            cardViewList.add(holder.cv)
+        }
+    }
+
+    fun resetCardsColor(){
+        for (cvs in cardViewList) {
+            cvs.setCardBackgroundColor(basicCardColor)
+        }
+    }
+
     override fun getItemCount(): Int {
         return gameList.size
     }
@@ -49,22 +61,11 @@ class GameRecyclerViewAdapter(
         gameList.addAll(filteredList)
     }
 
-    fun resetCardsColor(){
-        for (cvs in cardViewList) {
-            cvs.setCardBackgroundColor(basicCardColor)
-        }
-    }
 
-    private fun addCardViewToList(holder: GameViewHolder){
-        if (!cardViewList.contains(holder.cv)) {
-            cardViewList.add(holder.cv)
-        }
-    }
 }
 
 class GameViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     val cv: CardView = itemView.findViewById(R.id.cardView)
-
     fun bind(game: Game) {
         val tvGameName = view.findViewById<TextView>(R.id.tvGameName)
         val tvPoints = view.findViewById<TextView>(R.id.tvPoints)

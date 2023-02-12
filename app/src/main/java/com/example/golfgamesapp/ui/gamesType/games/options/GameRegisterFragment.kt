@@ -41,6 +41,7 @@ class GameRegisterFragment : Fragment() {
 
     private var isListItemClicked = false
     private lateinit var selectedGame: Game
+    private var lastSelectedGame: Game? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,10 +51,11 @@ class GameRegisterFragment : Fragment() {
         input = navigationArgs.gameInfo
         (activity as MainActivity).setActionBarTitle(input.name)
         setupDb()
+        setupRv()
         createOnDateSetListener()
         setupNotifications()
         setupButtons()
-        setupRv()
+        setupCurrentDate()
         return binding.root
     }
 
@@ -67,11 +69,39 @@ class GameRegisterFragment : Fragment() {
         val rvGames = binding.rvGames
         rvGames.layoutManager = LinearLayoutManager(this.context)
         adapter = GameRecyclerViewAdapter(input.name) { selectedItem: Game ->
-            listItemClicked(selectedItem)
+            lastSelectedGame = if(selectedItem!=lastSelectedGame){
+                listItemClicked(selectedItem)
+                selectedGame
+            } else {
+                restoreToDefault()
+                null
+            }
         }
         rvGames.adapter = adapter
         displayGameList()
     }
+
+    private fun listItemClicked(game: Game) {
+        selectedGame = game
+        setButtonsToUpdateDeleteNames()
+        isListItemClicked = true
+        binding.etPoints.setText(selectedGame.points.toString())
+        updateDateInView(Date(selectedGame.date.toInstant().toEpochMilli()))
+    }
+
+    private fun setButtonsToUpdateDeleteNames(){
+        binding.btnSave.text = "Update"
+        binding.btnClear.text = "Delete"
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun displayGameList() {
+        viewModel.games.observe(viewLifecycleOwner) {
+            adapter.setList(it)
+            adapter.notifyDataSetChanged()
+        }
+    }
+
 
     private fun createOnDateSetListener() {
         val dateSetListener =
@@ -93,13 +123,11 @@ class GameRegisterFragment : Fragment() {
     }
 
     private fun updateDateInView(date: Date) {
-        val myFormat = "dd/MM/yyyy" // mention the format you need
-        val sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
+        val dateFormat = "dd/MM/yyyy"
+        val sdf = SimpleDateFormat(dateFormat, Locale.ENGLISH)
         binding.tvDatePick.text = sdf.format(date)
     }
 
-
-    //Notifications related functions
     private fun setupNotifications() {
         notificationManager = requireActivity()
             .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -114,79 +142,24 @@ class GameRegisterFragment : Fragment() {
         notificationManager?.createNotificationChannel(channel)
     }
 
-    private fun displayNotification(game: Game) {
-        val notificationId = 45
-        val notification = NotificationCompat.Builder(requireActivity(), channelID)
-            .setContentTitle("Golf Games App")
-            .setContentText("You scored ${game.points} in ${game.name}")
-            .setSmallIcon(android.R.drawable.ic_dialog_info)
-            .setAutoCancel(true)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .build()
-        notificationManager?.notify(notificationId, notification)
-
-    }
-
-    //Button related functions
     private fun setupButtons() {
         binding.btnSave.setOnClickListener {
             if (validatePoints()) {
                 if (isListItemClicked) {
                     updateGameData()
-                    clearInput()
+                    restoreToDefault()
                 } else {
                     saveGameData()
-                    clearInput()
+                    restoreToDefault()
                 }
             }
         }
         binding.btnClear.setOnClickListener {
             if (isListItemClicked) {
                 deleteGameData()
-                clearInput()
-            } else {
-                clearInput()
+                restoreToDefault()
             }
         }
-    }
-
-    private fun saveGameData() {
-        val points = binding.etPoints.text.toString().toInt()
-        val date = cal.time.toInstant().atOffset(ZoneOffset.UTC)
-        val game = Game(0, input.name, points, date)
-        viewModel.insertGame(game)
-        displayNotification(game)
-    }
-
-
-    private fun updateGameData() {
-        viewModel.updateGame(
-            Game(
-                selectedGame.id,
-                selectedGame.name,
-                binding.etPoints.text.toString().toInt(),
-                cal.time.toInstant().atOffset(ZoneOffset.UTC)
-            )
-        )
-        binding.btnSave.text = "Save"
-        binding.btnClear.text = "Clear"
-        isListItemClicked = false
-        adapter.resetCardsColor()
-    }
-
-    private fun deleteGameData() {
-        viewModel.deleteGame(
-            Game(
-                selectedGame.id,
-                selectedGame.name,
-                selectedGame.points,
-                selectedGame.date
-            )
-        )
-        binding.btnSave.text = "Save"
-        binding.btnClear.text = "Clear"
-        isListItemClicked = false
-        adapter.resetCardsColor()
     }
 
     private fun validatePoints(): Boolean {
@@ -201,26 +174,66 @@ class GameRegisterFragment : Fragment() {
         return true
     }
 
+    private fun restoreToDefault(){
+        clearInput()
+        setButtonsToDefaultNames()
+        isListItemClicked = false
+        adapter.resetCardsColor()
+    }
+
     private fun clearInput() {
         binding.etPoints.setText("")
-        binding.tvDatePick.text = "--/--/----"
+        setupCurrentDate()
     }
 
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun displayGameList() {
-        viewModel.games.observe(viewLifecycleOwner) {
-            adapter.setList(it)
-            adapter.notifyDataSetChanged()
-        }
+    private fun setButtonsToDefaultNames(){
+        binding.btnSave.text = "Save"
+        binding.btnClear.text = "Clear"
     }
 
-    private fun listItemClicked(game: Game) {
-        selectedGame = game
-        binding.btnSave.text = "Update"
-        binding.btnClear.text = "Delete"
-        isListItemClicked = true
-        binding.etPoints.setText(selectedGame.points.toString())
-        updateDateInView(Date(selectedGame.date.toInstant().toEpochMilli()))
+    private fun saveGameData() {
+        val points = binding.etPoints.text.toString().toInt()
+        val date = cal.time.toInstant().atOffset(ZoneOffset.UTC)
+        val game = Game(0, input.name, points, date)
+        viewModel.insertGame(game)
+        displayNotification(game)
+    }
+
+    private fun displayNotification(game: Game) {
+        val notificationId = 45
+        val notification = NotificationCompat.Builder(requireActivity(), channelID)
+            .setContentTitle("Golf Games App")
+            .setContentText("You scored ${game.points} in ${game.name}")
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+        notificationManager?.notify(notificationId, notification)
+    }
+
+    private fun updateGameData() {
+        viewModel.updateGame(
+            Game(
+                selectedGame.id,
+                selectedGame.name,
+                binding.etPoints.text.toString().toInt(),
+                cal.time.toInstant().atOffset(ZoneOffset.UTC)
+            )
+        )
+    }
+
+    private fun deleteGameData() {
+        viewModel.deleteGame(
+            Game(
+                selectedGame.id,
+                selectedGame.name,
+                selectedGame.points,
+                selectedGame.date
+            )
+        )
+    }
+
+    private fun setupCurrentDate(){
+        updateDateInView(Calendar.getInstance().time)
     }
 }
