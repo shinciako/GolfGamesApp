@@ -28,16 +28,14 @@ class GameTypeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-
     private fun setupRv(){
         val rvGames = binding.gameTypeRecyclerView
         rvGames.layoutManager = LinearLayoutManager(activity)
         rvGames.adapter = GameTypeViewAdapter(gameTypesList)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

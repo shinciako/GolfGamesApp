@@ -200,7 +200,7 @@ class GameRegisterFragment : Fragment() {
     }
 
     private fun displayNotification(game: Game) {
-        val notificationId = 45
+        val notificationId = 0
         val notification = NotificationCompat.Builder(requireActivity(), channelID)
             .setContentTitle("Golf Games App")
             .setContentText("You scored ${game.points} in ${game.name}")

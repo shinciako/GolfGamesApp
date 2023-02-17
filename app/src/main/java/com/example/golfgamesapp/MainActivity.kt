@@ -40,6 +40,30 @@ class MainActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
+    private fun setupNav() {
+        navView = binding.navView
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_golfer, R.id.navigation_games, R.id.navigation_history
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+        controlNavVisibility(navController)
+    }
+
+    private fun controlNavVisibility(navController: NavController) {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.navigation_game ||
+                destination.id == R.id.chosenGame ||
+                destination.id == R.id.videoGame ||
+                destination.id == R.id.gameRegister
+            )
+                navView.visibility = View.GONE
+            else navView.visibility = View.VISIBLE
+        }
+    }
 
     fun hideSystemBars() {
         supportActionBar?.hide()
@@ -60,34 +84,7 @@ class MainActivity : AppCompatActivity() {
         ).show(WindowInsetsCompat.Type.systemBars())
     }
 
-    //Function to setupNav
-    private fun setupNav() {
-        navView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_golfer, R.id.navigation_games, R.id.navigation_history
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
-        controlNavVisibility(navController)
-    }
 
-    //Function to control visibility in fragments
-    private fun controlNavVisibility(navController: NavController) {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.navigation_game ||
-                destination.id == R.id.chosenGame ||
-                destination.id == R.id.videoGame ||
-                destination.id == R.id.gameRegister
-            )
-                navView.visibility = View.GONE
-            else navView.visibility = View.VISIBLE
-        }
-    }
-
-    //Function for sending data from activity to another activity
     fun sendHcp(tvHcp: TextView) {
         val intent = Intent(this, GolferActivity::class.java)
         intent.putExtra("HCP", tvHcp.text.toString())
@@ -95,7 +92,6 @@ class MainActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
 
-    //Function for receiving data from activity to another activity
     fun receiveHcp(): String? {
         sf = getSharedPreferences("my_sf", MODE_PRIVATE)
         val newHcp = intent.getStringExtra("HCP") ?: return sf.getString("sf_hcp", null)
@@ -106,12 +102,10 @@ class MainActivity : AppCompatActivity() {
         return newHcp
     }
 
-    //Changing title bar text
     fun setActionBarTitle(title: String?) {
         supportActionBar?.title = title
     }
 
-    //enabling back button in fragments
     override fun onSupportNavigateUp(): Boolean {
         return findNavController(R.id.nav_host_fragment_activity_main).navigateUp()
     }

@@ -47,7 +47,7 @@ class VideoGameFragment : Fragment() {
 
 
     private fun pickVideo(input: GameInfo){
-        when(input.name){
+        when(input.name){ // dummy videos
             "Par 18" -> fileName = R.raw.par18
             "Bank" -> fileName = R.raw.bank
             "Consecutive greens" -> fileName = R.raw.green
@@ -57,7 +57,6 @@ class VideoGameFragment : Fragment() {
         }
     }
 
-    //Stopping video
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onStop() {
         super.onStop()
@@ -66,7 +65,6 @@ class VideoGameFragment : Fragment() {
             (activity as MainActivity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         simpleExoPlayer.stop()
     }
-
 
     @SuppressLint("UseRequireInsteadOfGet", "SourceLockedOrientationActivity")
     private fun setupExoPlayer(){

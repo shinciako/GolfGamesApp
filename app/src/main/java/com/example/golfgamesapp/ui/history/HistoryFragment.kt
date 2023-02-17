@@ -36,8 +36,8 @@ class HistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHistoryBinding.inflate(inflater, container, false)
-        setupRv()
         setupDb()
+        setupRv()
         createOnDateSetListener()
         return binding.root
     }
@@ -96,6 +96,17 @@ class HistoryFragment : Fragment() {
         }
     }
 
+
+    private fun updateDateInView(date: Date, textView: TextView) {
+        val myFormat = "dd/MM/yyyy"
+        val sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
+        textView.text = sdf.format(date)
+    }
+
+    private fun filterByDate(data: List<Game>): List<Game> {
+        return data.filter { it.date >= dateFrom && it.date <= dateTo.plusDays(1) }
+    }
+
     private fun takeDate(dateSetListener: OnDateSetListener) {
         DatePickerDialog(
             requireActivity(),
@@ -104,17 +115,6 @@ class HistoryFragment : Fragment() {
             cal.get(Calendar.MONTH),
             cal.get(Calendar.DAY_OF_MONTH)
         ).show()
-    }
-
-    private fun updateDateInView(date: Date, textView: TextView) {
-        val myFormat = "dd/MM/yyyy" // mention the format you need
-        val sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
-        textView.text = sdf.format(date)
-    }
-
-
-    private fun filterByDate(data: List<Game>): List<Game> {
-        return data.filter { it.date >= dateFrom && it.date <= dateTo.plusDays(1) }
     }
 }
 

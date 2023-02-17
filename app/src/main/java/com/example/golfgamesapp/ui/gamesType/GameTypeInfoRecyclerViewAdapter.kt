@@ -10,15 +10,15 @@ import com.example.golfgamesapp.R
 
 class GameTypeViewAdapter(
     private val gameTypeList: List<GameType>
-) : RecyclerView.Adapter<GameTypeInfoHolder>() {
+) : RecyclerView.Adapter<GameTypeHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameTypeInfoHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameTypeHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem = layoutInflater.inflate(R.layout.game_types, parent, false)
-        return GameTypeInfoHolder(listItem)
+        return GameTypeHolder(listItem)
     }
 
-    override fun onBindViewHolder(holder: GameTypeInfoHolder, position: Int) {
+    override fun onBindViewHolder(holder: GameTypeHolder, position: Int) {
         val game = gameTypeList[position]
         holder.bind(game)
     }
@@ -28,14 +28,14 @@ class GameTypeViewAdapter(
     }
 }
 
-class GameTypeInfoHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-    fun bind(game: GameType) {
-        val myTextView = view.findViewById<TextView>(R.id.tvGames)
-        myTextView.text = game.name
+class GameTypeHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    fun bind(gameType: GameType) {
+        val tvGameType = view.findViewById<TextView>(R.id.tvGames)
+        tvGameType.text = gameType.name
 
         view.setOnClickListener {
             it.findNavController()
-                .navigate(GameTypeFragmentDirections.actionNavigationDashboardToShortGames(game))
+                .navigate(GameTypeFragmentDirections.actionNavigationDashboardToShortGames(gameType))
         }
     }
 }

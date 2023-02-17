@@ -35,9 +35,9 @@ class GolferActivity : AppCompatActivity() {
         setContentView(binding.root)
         title = "Settings"
         setupSf()
-        loadLastImage(binding.ivAvatarGolfer)
         setupHcp()
         setupButtons()
+        loadLastImage(binding.ivAvatarGolfer)
     }
 
     private fun setupSf(){
@@ -49,6 +49,10 @@ class GolferActivity : AppCompatActivity() {
         hcp = intent.getStringExtra("HCP").toString()
         hcp = converseText(hcp)
         binding.etHcp.setText(hcp)
+    }
+
+    private fun converseText(text:String):String{
+        return text.replace("hcp: ", "")
     }
 
     private fun setupButtons(){
@@ -68,29 +72,6 @@ class GolferActivity : AppCompatActivity() {
         binding.btnChangeAvatar.setOnClickListener{
             pickImageFromGallery()
         }
-    }
-
-
-    //Saving etHcp in shared preferences
-    override fun onPause() {
-        super.onPause()
-        val hcpPause = binding.etHcp.text.toString()
-        editor.apply {
-            putString("sf_hcpP",hcpPause)
-            commit()
-        }
-
-    }
-
-    //Restoring etHcp from shared preferences
-    override fun onResume() {
-        super.onResume()
-        val hcpPause = sf.getString("sf_hcpP",null)
-        binding.etHcp.setText(hcpPause)
-    }
-
-    private fun converseText(text:String):String{
-        return text.replace("hcp: ", "")
     }
 
     private fun validateHcp(hcp: String):Boolean{
@@ -122,6 +103,21 @@ class GolferActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         getResult.launch(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val hcpPause = sf.getString("sf_hcpP",null)
+        binding.etHcp.setText(hcpPause)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val hcpPause = binding.etHcp.text.toString()
+        editor.apply {
+            putString("sf_hcpP",hcpPause)
+            commit()
+        }
     }
 
     private fun loadLastImage(imageView: ImageView) {

@@ -41,7 +41,7 @@ class GameDaoTest {
 
     @Test
     fun insertGameTest() = runBlocking{
-        val listOfGames = listOf<Game>(Game(1,"Par 18", 21, offset))
+        val listOfGames = listOf(Game(1,"Par 18", 21, offset))
         dao.insertGame(listOfGames[0])
         val allGames = dao.getAllGames().getOrAwaitValue()
         Truth.assertThat(allGames).isEqualTo(listOfGames)
@@ -49,16 +49,16 @@ class GameDaoTest {
 
     @Test
     fun deleteGameTest() = runBlocking{
-        val listOfGames = listOf<Game>(Game(1,"Par 18", 21, offset))
+        val listOfGames = listOf(Game(1,"Par 18", 21, offset))
         dao.insertGame(listOfGames[0])
         dao.deleteGame(listOfGames[0])
-        val allGames = dao.getAllGames()
+        val allGames = dao.getAllGames().getOrAwaitValue()
         Truth.assertThat(allGames).isNotEqualTo(listOfGames)
     }
 
     @Test
     fun updateGameTest() = runBlocking{
-        val listOfGames = listOf<Game>(Game(1,"Par 18", 21, offset))
+        val listOfGames = listOf(Game(1,"Par 18", 21, offset))
         Log.i("Offset", listOfGames[0].date.toString())
         dao.insertGame(listOfGames[0])
         dao.updateGame(Game(1,"Par 18", 21, OffsetDateTime.now()))

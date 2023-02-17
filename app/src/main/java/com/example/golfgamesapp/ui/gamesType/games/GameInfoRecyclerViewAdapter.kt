@@ -31,8 +31,8 @@ class GameInfoRecyclerViewAdapter(
 
 class GameInfoHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     fun bind(gameInfo: GameInfo) {
-        val textViewGameInfo = view.findViewById<TextView>(R.id.tvGames)
-        textViewGameInfo.text = gameInfo.name
+        val tvGameInfo = view.findViewById<TextView>(R.id.tvGames)
+        tvGameInfo.text = gameInfo.name
 
         view.setOnClickListener {
             it.findNavController()
