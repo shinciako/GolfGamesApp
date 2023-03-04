@@ -54,8 +54,7 @@
     <fragment
         android:id="@+id/videoGame"
         android:name="com.example.golfgamesapp.ui.gamesType.games.options.VideoGameFragment"
-        android:label="fragment_video_game"
-        tools:layout="@layout/fragment_video_game" >
+        tools:layout="@layout/fragment_video_game">
         <argument
             android:name="GameInfo"
             app:argType="com.example.golfgamesapp.ui.gamesType.games.GameInfo" />
@@ -63,8 +62,7 @@
     <fragment
         android:id="@+id/gameRegister"
         android:name="com.example.golfgamesapp.ui.gamesType.games.options.GameRegisterFragment"
-        android:label="fragment_game_register"
-        tools:layout="@layout/fragment_game_register" >
+        tools:layout="@layout/fragment_game_register">
         <argument
             android:name="GameInfo"
             app:argType="com.example.golfgamesapp.ui.gamesType.games.GameInfo" />
