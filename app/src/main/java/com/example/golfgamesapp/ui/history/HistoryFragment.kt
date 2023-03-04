@@ -3,6 +3,7 @@ package com.example.golfgamesapp.ui.history
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.example.golfgamesapp.db.GameDatabase
 import java.text.SimpleDateFormat
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 
@@ -26,8 +28,8 @@ class HistoryFragment : Fragment() {
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
     private var cal = Calendar.getInstance()
-    private var dateFrom: OffsetDateTime = OffsetDateTime.MIN
-    private var dateTo: OffsetDateTime = OffsetDateTime.MAX.minusDays(1)
+    private var dateFrom: OffsetDateTime = OffsetDateTime.MIN.plusDays(1)
+    private var dateTo: OffsetDateTime = OffsetDateTime.MAX
 
 
     override fun onCreateView(
@@ -70,7 +72,7 @@ class HistoryFragment : Fragment() {
                 cal.set(Calendar.MONTH, month)
                 cal.set(Calendar.DAY_OF_MONTH, day)
                 updateDateInView(cal.time, binding.tvDatePickFromDate)
-                dateFrom = cal.time.toInstant().atOffset(ZoneOffset.UTC)
+                dateFrom = cal.time.toInstant().atOffset(ZoneOffset.UTC).truncatedTo(ChronoUnit.DAYS)
                 val filteredData =
                     filterByDate(gamesList)
                 adapter.setList(filteredData)
@@ -82,7 +84,7 @@ class HistoryFragment : Fragment() {
                 cal.set(Calendar.MONTH, month)
                 cal.set(Calendar.DAY_OF_MONTH, day)
                 updateDateInView(cal.time, binding.tvDatePickToDate)
-                dateTo = cal.time.toInstant().atOffset(ZoneOffset.UTC)
+                dateTo = cal.time.toInstant().atOffset(ZoneOffset.UTC).truncatedTo(ChronoUnit.DAYS)
                 val filteredData = filterByDate(gamesList)
                 adapter.setList(filteredData)
             }
@@ -104,7 +106,7 @@ class HistoryFragment : Fragment() {
     }
 
     private fun filterByDate(data: List<Game>): List<Game> {
-        return data.filter { it.date >= dateFrom && it.date <= dateTo.plusDays(1) }
+        return data.filter { it.date >= dateFrom && it.date < dateTo.plusDays(1)}
     }
 
     private fun takeDate(dateSetListener: OnDateSetListener) {
