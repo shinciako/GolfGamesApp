@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.forEach
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -54,14 +55,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun controlNavVisibility(navController: NavController) {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.navigation_game ||
-                destination.id == R.id.chosenGame ||
-                destination.id == R.id.videoGame ||
-                destination.id == R.id.gameRegister
-            )
+        navController.addOnDestinationChangedListener { controller, destination, _ ->
+            if (destination.id == R.id.videoGame){
                 navView.visibility = View.GONE
-            else navView.visibility = View.VISIBLE
+            } else navView.visibility = View.VISIBLE
+            if (destination.id != navView.selectedItemId) {
+                controller.backQueue.asReversed().drop(1).forEach { entry ->
+                    navView.menu.forEach { item ->
+                        if (entry.destination.id == item.itemId) {
+                            item.isChecked = true
+                            return@addOnDestinationChangedListener
+                        }
+                    }
+                }
+            }
         }
     }
 
